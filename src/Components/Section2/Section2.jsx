@@ -3,6 +3,7 @@ import blue from "../../assets/Images/blueice.webp";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Context/CartContext1.jsx";
+import toast from "react-hot-toast";
   
 
 export default function Section2() {

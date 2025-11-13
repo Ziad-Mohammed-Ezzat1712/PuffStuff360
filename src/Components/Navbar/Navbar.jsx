@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from "../../../public/logo.png";
-
+import { ShoppingCart,Heart,User  } from "lucide-react";
 import { useCart } from '../../Context/CartContext1';
 import PromoSlider from '../CategoriesSlider/PromoSlider';
 
@@ -30,6 +30,7 @@ export default function Navbar() {
       toast.success(`${product.name} added to cart! 🛒`);
     }, 800); // محاكاة تحميل بسيط
   };
+const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
     <>
@@ -54,24 +55,65 @@ export default function Navbar() {
           <div className="hidden w-full md:flex-1 md:flex justify-center order-last md:order-none">
         <ul className="flex  gap-10 text-md font-medium">
                 <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
-                <li><NavLink to="/shopstartkits" className={navLinkClass}> Product</NavLink></li>
-                <li><NavLink to="/vaping-devices" className={navLinkClass}>Best Sellers</NavLink></li>
-                <li><NavLink to="/tanks" className={navLinkClass}>About Us</NavLink></li>
-                <li><NavLink to="/accessories" className={navLinkClass}>Contact US</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}> Product</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}>About Us</NavLink></li>
+                <li><NavLink to="https://" target="_blank" className={navLinkClass}>Contact US</NavLink></li>
                
               </ul>
           </div>
 
           <div className="hidden md:flex w-full md:w-auto justify-center md:justify-end">
             <ul className="flex gap-4 items-center">
-              <li><NavLink to="login" className={navLinkClass}>Login</NavLink></li>
-              <li><NavLink to="register" className={navLinkClass}>Register</NavLink></li>
-              <NavLink className="text-white relative hover:text-white" to="cart">
-                <i className="fa-solid fa-cart-shopping"></i>
+             
+              <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="cart">
+                   <ShoppingCart size={24} color="#000" />
                 <div className="absolute top-[-13px] right-[-15px] flex items-center justify-center size-5 rounded-full bg-red-600 text-white text-xs font-bold">
                   {totalItems}
                 </div>
               </NavLink>
+    <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="cart">
+                   <Heart size={24} color="#000" />
+                  
+                <div className="absolute top-[-13px] right-[-15px] flex items-center justify-center size-5 rounded-full bg-red-600 text-white text-xs font-bold">
+                  {totalItems}
+                </div>
+              </NavLink>
+          {/* الجزء دا فقط هو المعدل */}
+<div className="relative">
+  <button
+    onClick={() => setUserMenuOpen((prev) => !prev)}
+    className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white"
+  >
+    <User size={24} color="#000" />
+  </button>
+
+  {userMenuOpen && (
+    <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+      <ul className="flex flex-col py-2">
+        <li>
+          <NavLink
+            to="/login"
+            className="block px-4 py-2 text-gray-700 hover:bg-[#4E0000] hover:text-white transition"
+            onClick={() => setUserMenuOpen(false)}
+          >
+            Login
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/register"
+            className="block px-4 py-2 text-gray-700 hover:bg-[#4E0000] hover:text-white transition"
+            onClick={() => setUserMenuOpen(false)}
+          >
+            Register
+          </NavLink>
+        </li>
+      </ul>
+    </div>
+  )}
+</div>
+
             </ul>
           </div>
         </div>
@@ -94,10 +136,10 @@ export default function Navbar() {
             <div className="border-t border-white pt-3">
               <ul className="flex flex-col gap-2 text-sm font-medium">
               <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
-                <li><NavLink to="/shopstartkits" className={navLinkClass}> Product</NavLink></li>
-                <li><NavLink to="/vaping-devices" className={navLinkClass}>Best Sellers</NavLink></li>
-                <li><NavLink to="/tanks" className={navLinkClass}>About Us</NavLink></li>
-                <li><NavLink to="/accessories" className={navLinkClass}>Contact US</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}> Product</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}>About Us</NavLink></li>
+                <li><NavLink to="/cart" className={navLinkClass}>Contact US</NavLink></li>
               </ul>
             </div>
           </div>

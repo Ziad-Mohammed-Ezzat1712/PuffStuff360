@@ -109,14 +109,18 @@
 import React, { useState, useEffect } from 'react';
 
 // استيراد الصورتين (تأكد من تحديث المسارات لتناسب مشروعك)
-import img1 from '../../assets/Images/img1.png'; // الصورة العادية (العلوية)
-import img2 from '../../assets/Images/img2.png'; 
+import img11 from '../../assets/Images/img1.png'; // الصورة العادية (العلوية)
+import img22 from '../../assets/Images/img2.png'; 
+import img2 from '../../assets/Images/img2.webp'; 
+import img1 from '../../assets/Images/img1.webp'; 
 
 
 export default function Section4() {
   const [isGlitched, setIsGlitched] = useState(false);
   const [isCardOpen, setIsCardOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
+  
   useEffect(() => {
     // التبديل بين الحالتين كل ثانيتين (2000 مللي ثانية)
     const intervalId = setInterval(() => {
@@ -138,6 +142,7 @@ export default function Section4() {
 
   const handleOfferClick = () => {
     setIsCardOpen(prevIsCardOpen => !prevIsCardOpen);
+     setIsOpen((prev) => !prev);
   };
   // دالة وهمية للتعامل مع التسجيل
   const handleRegister = (e) => {
@@ -182,14 +187,22 @@ export default function Section4() {
    
         
         {/* زر العرض (GET OFFER) */}
-      <button 
-          className="absolute top-0 right-0 h-full w-12 bg-[#FF0000] rounded-xl text-white font-bold text-[32px] transform rotate-180 z-20 hover:bg-red-700 transition-colors"
-          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          onClick={handleOfferClick}
-        >
-          <span className="text-white transform rotate-180">GET OFFER 20%</span>
-          <span className="text-white transform rotate-180 text-[32px]">▲</span>
-        </button>
+     <button
+      className="absolute top-0 right-0 h-full w-12 bg-[#FF0000] rounded-xl text-white font-bold text-[32px] transform rotate-180 z-20 hover:bg-red-700 transition-colors"
+      style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+      onClick={handleOfferClick}
+    >
+      <span className="text-white transform rotate-180">GET OFFER 20%</span>
+
+      {/* السهم */}
+      <span
+        className={`text-white transform rotate-180 text-[32px] inline-block transition-transform duration-300 ${
+          isOpen ? "rotate-90" : "rotate-0"
+        }`}
+      >
+        ▲
+      </span>
+    </button>
       </div>
 
       {/* الكارد الذي سيظهر عند الضغط */}

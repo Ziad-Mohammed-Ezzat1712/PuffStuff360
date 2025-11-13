@@ -1,10 +1,12 @@
 
 //Egyptian Liquid section
 import React, { useState } from "react";
-import { useCart } from "../../Context/CartContext1.jsx";import blue from "../../assets/Images/blueice.webp";
+import { useCart } from "../../Context/CartContext1.jsx";
+import blue from "../../assets/Images/blueice.webp";
 
 import { Heart } from "lucide-react";
-
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 export default function Section7() {
  const { addToCart } = useCart();
   const [loadingId, setLoadingId] = useState(null);
@@ -93,15 +95,20 @@ export default function Section7() {
         {products.map((product, index) => (
           <div
             key={product.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative"
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative hover:scale-110"
           >
             {/* Image */}
             <div className="flex justify-center items-center h-72 bg-gray-100">
-              <img
-  src={product.image}
-  alt={product.title}
-  className="h-52 object-contain transition-transform duration-500 ease-in-out hover:animate-tilt"
-/>
+             <Link to={`/product/${product.id}`}>
+              <div className="flex justify-center items-center h-72 bg-gray-100">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="h-52 object-contain transition-transform duration-500 ease-in-out hover:animate-tilt"
+                />
+              </div>
+            </Link>
+
 
             </div>
 
