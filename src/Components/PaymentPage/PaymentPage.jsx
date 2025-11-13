@@ -71,9 +71,11 @@ export default function PaymentPage() {
 </div>
 
 <div className='flex justify-center gap-4 pb-10 pt-4 '>
+   <Link to="/shippingpage">
    <button className='flex items-center  gap-3 bg-transparent border border-black px-20 font-medium text-black py-2 rounded-xl hover:bg-[#790000]  hover:text-white hover:border-transparent'>
     Back
   </button>
+  </Link>
   <Link to="/details" className="text-white hover:text-black"><button className='flex items-center gap-3 bg-[#790000] hover:bg-transparent hover:border hover:border-black px-12 font-medium text-white hover:text-black py-2 rounded-xl'>
    continuation
   </button></Link>

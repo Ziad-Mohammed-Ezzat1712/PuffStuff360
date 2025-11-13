@@ -83,9 +83,11 @@ Upload a photo of the receipt <i class="fa-solid fa-arrow-up-from-bracket text-2
 </div>
 
 <div className='flex justify-center gap-4 pb-10 pt-4 '>
+   <Link to="/paymentpage">
    <button className='flex items-center  gap-3 bg-transparent border border-black px-20 font-medium text-black py-2 rounded-xl hover:bg-[#790000]  hover:text-white hover:border-transparent'>
     Back
   </button>
+  </Link>
  <Link to="/confirmation">
   <button className='flex items-center gap-3 bg-[#790000] hover:bg-transparent hover:border hover:border-black px-12 font-medium text-white hover:text-black py-2 rounded-xl'>
    Transferred
