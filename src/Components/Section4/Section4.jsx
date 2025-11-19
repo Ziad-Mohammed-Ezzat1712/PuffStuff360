@@ -1,119 +1,6 @@
-
-
-// import React, { useState, useEffect } from 'react';
-
-// // استيراد الصورتين (تأكد من تحديث المسارات لتناسب مشروعك)
-// import img1 from '../../assets/Images/img1.png'; // الصورة العادية (العلوية)
-// import img2 from '../../assets/Images/img2.png'; 
-
-// export default function Section4() {
-//   const [isGlitched, setIsGlitched] = useState(false);
-//   const [isCardOpen, setIsCardOpen] = useState(false);
-
-//   useEffect(() => {
-//     // تبديل حالة التشويش كل 1000 مللي ثانية (1 ثانية)
-//     const intervalId = setInterval(() => {
-//       setIsGlitched(prevIsGlitched => !prevIsGlitched);
-//     }, 2000); 
-
-//     const handleAddToCart = (product) => {
-  //   setLoadingId(product.id);
-  //   setTimeout(() => {
-  //     addToCart(product);
-  //     setLoadingId(null);
-  //     toast.success(`${product.name} added to cart! 🛒`);
-  //   }, 800); // محاكاة تحميل بسيط
-  // };
-
-  // return () => clearInterval(intervalId);
-//   }, []); 
-
-//   const handleOfferClick = () => {
-//     setIsCardOpen(prevIsCardOpen => !prevIsCardOpen);
-//     console.log(`Card is now ${!isCardOpen ? 'Open' : 'Closed'}`);
-//   };
-
-//   const handleAddToCart = (product) => {
-  //   setLoadingId(product.id);
-  //   setTimeout(() => {
-  //     addToCart(product);
-  //     setLoadingId(null);
-  //     toast.success(`${product.name} added to cart! 🛒`);
-  //   }, 800); // محاكاة تحميل بسيط
-  // };
-
-  // return (
-//     <div className="relative w-full overflow-hidden shadow-2xl">
-      
-//       {/* الصورة والمحتوى */}
-//       <div className="relative flex items-center justify-start h-[450px]">
-        
-//         {/* الصورة الأساسية أو المشوشة بناءً على حالة isGlitched */}
-//         <img 
-//           src={isGlitched ? img2 : img1} // هنا يتم التبديل بين الصورتين
-//           alt="Best Offers on Best Devices" 
-//           // عند التبديل بين الصورتين، يمكننا تطبيق تأثير انتقال سلس إذا أردت
-//           className="w-full h-full object-fill opacity-80 transition-opacity duration-600 ease-in-out"
-//         />
-        
-
-        
-//         {/* زر العرض (GET OFFER) */}
-//         <button 
-//           className="absolute top-0 right-0 h-full w-8 bg-red-600 text-white font-bold text-xs transform rotate-180 z-20 hover:bg-red-700 transition-colors"
-//           style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-//           onClick={handleOfferClick}
-//         >
-//           <span className="text-white transform rotate-180">GET OFFER 20%</span>
-//           <span className="text-white transform rotate-180 text-lg">▲</span>
-//         </button>
-//       </div>
-
-//       {/* الكارد الذي سيظهر عند الضغط */}
-//       {isCardOpen && (
-//         <div className="absolute top-0 right-8 mt-2 p-4 bg-gray-800 text-white shadow-xl z-30 w-64 rounded-lg animate-fade-in">
-//           {/* هنا محتوى الكارد الذي سترسله لاحقاً */}
-//           <h3 className="font-bold text-lg">🎉 العروض الخاصة!</h3>
-//           <p className="text-sm mt-1">
-//             هذا هو الكارد الذي سيظهر عند الضغط على زر العرض.
-//           </p>
-//         </div>
-//       )}
-      
-//       {/* هذا الـ <style> ضروري لإضافة الـ Keyframes والـ Utilities المخصصة لتأثير النيون وظهور الكارد */}
-//       <style jsx>{`
-//         /* تأثيرات النيون */
-//         .neon-cyan {
-//           text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-//           color: cyan;
-//         }
-//         .neon-magenta {
-//           text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f;
-//           color: magenta;
-//         }
-        
-//         /* أنميشن لظهور الكارد */
-//         @keyframes fade-in {
-//             from { opacity: 0; transform: translateY(-10px); }
-//             to { opacity: 1; transform: translateY(0); }
-//         }
-//         .animate-fade-in {
-//             animation: fade-in 0.5s ease-out forwards;
-//         }
-//       `}</style>
-//     </div>
-//   );
-// }
-
-
 import React, { useState, useEffect } from 'react';
-
-// استيراد الصورتين (تأكد من تحديث المسارات لتناسب مشروعك)
-import img11 from '../../assets/Images/img1.png'; // الصورة العادية (العلوية)
-import img22 from '../../assets/Images/img2.png'; 
 import img2 from '../../assets/Images/img2.webp'; 
 import img1 from '../../assets/Images/img1.webp'; 
-
 
 export default function Section4() {
   const [isGlitched, setIsGlitched] = useState(false);
@@ -128,14 +15,7 @@ export default function Section4() {
       setIsGlitched(prevIsGlitched => !prevIsGlitched);
     }, 2000); 
 
-    const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
+
 
   return () => clearInterval(intervalId);
   }, []); 
@@ -252,24 +132,24 @@ export default function Section4() {
         </div>
       )}
       {/* الـ CSS المخصص */}
-      <style jsx>{`
-        .neon-cyan {
-          text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-          color: cyan;
-        }
-        .neon-magenta {
-          text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f;
-          color: magenta;
-        }
-        
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fade-in 0.3s ease-out forwards;
-        }
-      `}</style>
+  <style>{`
+  .neon-cyan {
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+    color: cyan;
+  }
+  .neon-magenta {
+    text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f;
+    color: magenta;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+`}</style>
+
     </div>
   );
 }

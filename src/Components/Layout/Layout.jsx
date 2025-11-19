@@ -2,21 +2,16 @@
 import React from 'react'
 import Navbar from './../Navbar/Navbar';
 import Footer from './../Footer/Footer';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 export default function Layout() {
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
+let {pathname} = useLocation(); 
+console.log(pathname);
 
   return (
     <>
-      <Navbar/>
+    
+      <Navbar className={pathname === "/about" ? "hidden" : ""}/>
 
       <div className=" w-full max-w-[1800px] mx-auto my-5 py-20 lg:py-12">
       <Outlet/>

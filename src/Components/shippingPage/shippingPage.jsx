@@ -7,14 +7,7 @@ import { FaEnvelope, FaUserAlt, FaCity, FaMapMarkerAlt } from "react-icons/fa";
   
 
 export default function ShippingPage() {
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
+
 
   return (
     <div className=" text-white min-h-screen px-6 py-10 container mx-auto">
@@ -95,7 +88,7 @@ export default function ShippingPage() {
           </div>
 
           {/* Cart Summary */}
-          <div className="bg-[#ffffff] p-6 rounded-2xl shadow-lg h-fit sticky top-20">
+          <div  className="bg-[#ffffff] p-6 rounded-2xl shadow-lg h-fit sticky top-20">
             <h3 className="text-2xl text-left text-black font-medium  pb-3 mb-4">
               Order Summary
             </h3>

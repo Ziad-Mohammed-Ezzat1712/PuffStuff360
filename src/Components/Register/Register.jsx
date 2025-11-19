@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from "yup"
+import { toast } from "react-toastify";
 
 
 
@@ -13,32 +14,57 @@ const [errorMessage, seterrorMessage] = useState("")
 const [isLoading, setisLoading] = useState(false)
   let navigate = useNavigate()
 async function handleRegester(values) {
- setisLoading(true)
- await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, values)
+  setisLoading(true);
 
-.then((res)=> {console.log(res)
-setisLoading(false)
+  const formData = new FormData();
+  formData.append("name", values.name);
+  formData.append("email", values.email);
+  formData.append("password", values.password);
+  formData.append("rePassword", values.rePassword);
+  formData.append("phone", values.phone);
 
-if (res.data.message == "success") {
-  localStorage.setItem("userToken", res.data.token)
+  try {
+    const res = await axios.post(
+      `https://dashboard.splash-e-liquid.com/auth/userAuth/register.php`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
 
-  setuserLogin(res.data.token)
+    setisLoading(false);
+    console.log(res.data);
 
-  navigate("/")   
-}
-}
-)
-.catch((res)=>   {
+    if (res.data.status === true) {
+      // حفظ التوكن
+      localStorage.setItem("userToken", res.data.data.token);
+      localStorage.setItem("username", res.data.data.user.name);
 
-  seterrorMessage(res.response.data.message)
-setisLoading(false)
-})
+      // 🔥 توست النجاح
+      toast.success(res.data.message || "Account created successfully 🎉", {
+        position: "top-center",
+      });
+
+      // ⏳ عمل تأخير بسيط عشان يظهر التوست
+      setTimeout(() => {
+        navigate("/");
+      }, 1200);
+    }
+  } catch (err) {
+    setisLoading(false);
+    seterrorMessage(err.response?.data?.message || "Something went wrong");
+
+    // توست خطأ
+    toast.error(err.response?.data?.message || "Registration failed ❌", {
+      position: "top-center",
+    });
+  }
 }
 
 let validationSchema = yup.object().shape({
   name : yup.string().min(2,"min length is 2").max(10,"max length is 10").required("name is required"),
   email: yup.string().email("email not vaild").required("email is required"),
-  password: yup.string().required("password is required").min(6,"password min length is 6"),
+  password: yup.string().required("password is required").min(8,"password min length is 8"),
   rePassword: yup.string().required("password is required").oneOf( [yup.ref("password")],"not match with password"),
   phone: yup.string().matches(/^01[1025][0-9]{8}$/,"phone not vaild").required("phone is required")
 
@@ -58,15 +84,6 @@ let formik = useFormik({
 })
 
 
-
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
 
   return (
     <>

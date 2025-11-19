@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from "yup"
-
+import { toast } from "react-toastify";
 
 
 
@@ -13,27 +13,45 @@ const [errorMessage, seterrorMessage] = useState("")
 const [isLoading, setisLoading] = useState(false)
   let navigate = useNavigate()
 async function handleLogin(values) {
- setisLoading(true)
- await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, values)
+  setisLoading(true);
 
-.then((res)=> {console.log(res)
-setisLoading(false)
+  const formData = new FormData();
+  formData.append("email", values.email);
+  formData.append("password", values.password);
 
-if (res.data.message == "success") {
-  localStorage.setItem("userToken", res.data.token)
+  axios
+    .post("https://dashboard.splash-e-liquid.com/auth/userAuth/login.php", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setisLoading(false);
 
-  setuserLogin(res.data.token)
-  navigate("/")   
+       if (res.data.status === true) {
+         // حفظ التوكن
+         localStorage.setItem("userToken", res.data.data.token);
+         localStorage.setItem("username", res.data.data.user.name);
+   
+         // 🔥 توست النجاح
+         toast.success(res.data.message || "Account created successfully 🎉", {
+           position: "top-center",
+         });
+   
+         // ⏳ عمل تأخير بسيط عشان يظهر التوست
+         setTimeout(() => {
+           navigate("/");
+         }, 1200);
+       }
+    })
+    .catch((err) => {
+      console.log(err);
+      seterrorMessage(err.response?.data?.message || "Something went wrong");
+      setisLoading(false);
+    });
 }
-}
-)
-.catch((res)=>   {
-console.log(res);
 
-  seterrorMessage(res.response.data.message)
-setisLoading(false)
-})
-}
 
 let validationSchema = yup.object().shape({
   email: yup.string().email("email not vaild").required("email is required"),

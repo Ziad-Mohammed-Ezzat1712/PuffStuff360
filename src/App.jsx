@@ -36,7 +36,9 @@ import ShippingPage from './Components/shippingPage/shippingPage';
 import PaymentPage from './Components/PaymentPage/PaymentPage';
 import DetailsPage from "./Components/DetailsPage/DetailsPage";
 import ConfirmationPage from "./Components/ConfirmationPage/ConfirmationPage";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AboutUs from "./Components/AboutUs/AboutUs";
 
 
 
@@ -73,15 +75,12 @@ let x = createBrowserRouter([
     {path:"/paymentpage",element:<PaymentPage />},
     {path:"/details",element:<DetailsPage />},
     {path:"/confirmation",element:<ConfirmationPage/>},
+    ,
 
 
   ]},
 {
-    path: 'kareem',
-    element: <DashboardLayout /> ,
-    children: [
-      { path: 'products', element: <ProductsDashboard /> }
-    ]
+  path:"/about",element:<AboutUs/>
   }
 ]
 
@@ -93,6 +92,7 @@ function App() {
   return(
   
   <>
+   <ToastContainer />
   <CartProvider>
        <Toaster position="top-center" reverseOrder={false} />
       <RouterProvider router={x}></RouterProvider>

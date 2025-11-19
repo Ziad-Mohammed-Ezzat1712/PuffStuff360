@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import blue from "../../assets/Images/blueice.webp";
 import watermelon from "../../assets/Images/watermallon.webp";
@@ -32,7 +32,14 @@ const bottles = [
 ];
 
 export default function SplashSlider() {
-  const [index, setIndex] = useState(0);
+const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % bottles.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleNext = () => {
     setIndex((prev) => (prev + 1) % bottles.length);
@@ -53,14 +60,6 @@ export default function SplashSlider() {
     }
   };
 
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
 
   return (
     <>
