@@ -94,7 +94,7 @@ export default function Section2() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative hover:scale-110"
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative hover:scale-105 md:hover:scale-110"
           >
             {/* Image */}
             <Link to={`/product/${product.id}`}>

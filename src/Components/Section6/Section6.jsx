@@ -95,7 +95,7 @@ export default function Section6() {
         {products.map((product, index) => (
           <div
             key={product.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative hover:scale-110"
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500 group relative hover:scale-105 md:hover:scale-110"
           >
             {/* Image */}
             <div className="flex justify-center items-center h-72 bg-gray-100">

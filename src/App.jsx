@@ -39,6 +39,7 @@ import ConfirmationPage from "./Components/ConfirmationPage/ConfirmationPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AboutUs from "./Components/AboutUs/AboutUs";
+import AllProducts from "./Components/AllProducts/AllProducts";
 
 
 
@@ -75,6 +76,7 @@ let x = createBrowserRouter([
     {path:"/paymentpage",element:<PaymentPage />},
     {path:"/details",element:<DetailsPage />},
     {path:"/confirmation",element:<ConfirmationPage/>},
+    {path:"/products",element:<AllProducts/>},
     ,
 
 

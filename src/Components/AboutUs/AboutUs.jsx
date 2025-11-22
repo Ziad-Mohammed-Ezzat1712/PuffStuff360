@@ -65,7 +65,7 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
             <ul className="flex gap-10 text-md font-medium">
               <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
               <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
-              <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+            
               <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
               <li><NavLink to="https://" target="_blank" className={navLinkClass}>Contact US</NavLink></li>
             </ul>
@@ -196,7 +196,7 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
               <ul className="flex flex-col gap-2 text-sm font-medium">
                 <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
                 <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
-                <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+              
                 <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
                 <li><NavLink to="/cart" className={navLinkClass}>Contact US</NavLink></li>
               </ul>
@@ -243,7 +243,7 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
     <p className="text-[20px] mb-6 text-left">
       Our store is built to give every vaper in Egypt a smooth, easy, and hassle-free experience. Whether you're new to vaping or a long-time user, you'll find everything you need in one place. We offer the latest devices, the newest e-liquid flavors, and a wide range of accessories — all carefully selected to match every style and preference. Fast, simple, and always updated with the newest releases.
     </p>
-    <Link to="/" className='z-50'>
+    <Link to="/products" className='z-50'>
       <button className="bg-black/20 w-[240px] text-[24px] text-white px-[28px] py-[8px] rounded-md hover:bg-black/30 transition">
         Our Product
       </button>

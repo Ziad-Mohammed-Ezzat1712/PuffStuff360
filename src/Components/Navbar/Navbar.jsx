@@ -46,8 +46,8 @@ const userName = localStorage.getItem("username"); // لو بتحفظ الاسم
           <div className="hidden w-full md:flex-1 md:flex justify-center order-last md:order-none">
             <ul className="flex gap-10 text-md font-medium">
               <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
-              <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
-              <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+              <li><NavLink to="/products" className={navLinkClass}>Product</NavLink></li>
+           
               <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
               <li><NavLink to="https://m.me/PuffStuffNasr" target="_blank" className={navLinkClass}>Contact US</NavLink></li>
             </ul>
@@ -177,8 +177,8 @@ const userName = localStorage.getItem("username"); // لو بتحفظ الاسم
             <div className="border-t border-white pt-3">
               <ul className="flex flex-col gap-2 text-sm font-medium">
                 <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
-                <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
-                <li><NavLink to="/cart" className={navLinkClass}>Best Sellers</NavLink></li>
+                <li><NavLink to="/products" className={navLinkClass}>Product</NavLink></li>
+            
                 <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
                 <li><NavLink to="/cart" className={navLinkClass}>Contact US</NavLink></li>
               </ul>

@@ -19,14 +19,14 @@ const bottles = [
     id: 2,
     img: watermelon,
     color: "#FF007F", // مثال للون تاني
-    title: "Splash liquid",
+    title: "Rpzetta liquid",
     desc: "Crafted with precision for pure, rich flavor in every drop Our e-liquid blends science and passion to perfect your vape.",
      desc2: "Experience the ultimate splash of flavor with every puff. Vape Splash delivers bold taste and smooth clouds that hit just right. Designed for style, power, and pure satisfaction. Elevate your vibe — feel the splash, feel the difference.",},
   {
     id: 3,
     img: mango,
     color: "#FFA500", // لون ثالث (مانجو)
-    title: "Splash liquid",
+    title: "Rpzetta liquid",
     desc: "Crafted with precision for pure, rich flavor in every drop Our e-liquid blends science and passion to perfect your vape.",
      desc2: "Experience the ultimate splash of flavor with every puff. Vape Splash delivers bold taste and smooth clouds that hit just right. Designed for style, power, and pure satisfaction. Elevate your vibe — feel the splash, feel the difference.",},
 ];
