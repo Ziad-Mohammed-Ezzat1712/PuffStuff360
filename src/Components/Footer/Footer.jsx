@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from "../../Context/CartContext1.jsx";import logo from "../../../public/logo.png";
 import {
   FaFacebookF,
@@ -9,33 +10,25 @@ import {
 } from "react-icons/fa";
 
 export default function Footer() {
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
+
+  const navLinkClass = ({ isActive }) =>
+    isActive ? "hover:text-red-500 text-red-500 font-semibold" : "hover:text-red-500 text-white font-semibold";
 
   return (
     <>
       {/* Main Footer */}
       <footer className="bg-gradient-to-b from-[#4e0000] to-[#1a0000] text-gray-300 px-6 md:px-12 py-12">
-        <div className="max-w-screen-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        <div className="max-w-screen-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           
           {/* Column 1: Logo */}
-          <div className="flex flex-col items-start">
+          <div className="flex gap-8 items-start">
             <img
               src={logo}
               alt="Logo"
               className="h-24 w-auto object-contain"
             />
-          </div>
-
-          {/* Column 2: About / Info */}
-          <div className="flex flex-col items-start space-y-3">
-            <p className="text-sm leading-relaxed text-left max-w-sm">
+             <div className="flex flex-col justify-start gap-y-5 items-start">
+              <p className="text-sm leading-relaxed text-left max-w-sm">
               Hello, we are ABC. trying to make an effort to put the right people
               for you to get the best results. Just insight
             </p>
@@ -43,10 +36,12 @@ export default function Footer() {
             <p className="underline hover:text-white cursor-pointer text-sm">
               (123) 456-7890
             </p>
-            <p className="underline hover:text-white cursor-pointer text-sm">
-              ABC@gmail.com
-            </p>
+             </div>
+          </div>
 
+          {/* Column 2: About / Info */}
+          <div className="flex flex-col items-start justify-center space-y-3">
+          
             {/* Social Icons */}
             <div className="flex items-center gap-5 pt-3">
               <a href="#" className="text-white transitio hover:text-blue-700">
@@ -63,22 +58,16 @@ export default function Footer() {
 
           {/* Column 3: Product */}
           <div className="flex flex-col items-start">
-            <h3 className="font-semibold text-lg text-white mb-4">Product</h3>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Autocapture</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Data Governance</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Virtual Events</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Virtual Users</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Behavioral Analytics</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Connect</p>
+            <h3 className="font-semibold text-lg text-white mb-4">NavLinks</h3>
+                     <NavLink to="/#" className={navLinkClass}>Home</NavLink>                                    
+<NavLink to="/products" className={navLinkClass}>Product</NavLink>                                    
+           
+<NavLink to="/about" className={navLinkClass}>About Us</NavLink>                                      
+<NavLink to="https://m.me/PuffStuffNasr" target="_blank" className={navLinkClass}>Contact US</NavLink>
           </div>
 
           {/* Column 4: Explore */}
-          <div className="flex flex-col items-start">
-            <h3 className="font-semibold text-lg text-white mb-4">Explore</h3>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Resources</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Blog</p>
-            <p className="mb-2 cursor-pointer hover:text-white transition">Documents</p>
-          </div>
+        
         </div>
       </footer>
 

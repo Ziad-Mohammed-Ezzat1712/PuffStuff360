@@ -44,13 +44,13 @@ export default function Section4() {
     <div className="relative w-full bg-black overflow-hidden shadow-2xl rounded-xl">
       
       {/* الصورة والمحتوى */}
-      <div className="relative h-[480px] rounded-xl ">
+      <div className="relative md:h-[480px] h-[110px] rounded-xl ">
         
         {/* 1. الصورة العادية (تكون في الأسفل) */}
         <img 
           src={img1} 
           alt="Best Offers on Best Devices" 
-          className="absolute inset-0 w-full h-full object-fill opacity-80 "
+          className="absolute inset-0 w-full h-full md:object-fill object-contain opacity-80 "
         />
         
         {/* 2. الصورة المشوشة (تكون في الأعلى) */}
@@ -58,7 +58,7 @@ export default function Section4() {
           src={img2} 
           alt="Best Offers on Glitched" 
           className={`
-            absolute inset-0 w-full h-full object-fill 
+            absolute inset-0 w-full h-full md:object-fill object-contain 
             transition-opacity duration-500 ease-in-out // المدة التي تستغرقها عملية التلاشي
             ${isGlitched ? 'opacity-100' : 'opacity-0'} // تتحكم في شفافية الصورة المشوشة
           `}

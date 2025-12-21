@@ -18,7 +18,9 @@ export default function Home() {
     <>
 
     {/* <MainSlider/> */}
-    <Section1/>
+    <div className=' hidden md:block'>
+      <Section1/>
+    </div>
   <Section2/>
 {/* <Section3/> */}
 <Section4/>

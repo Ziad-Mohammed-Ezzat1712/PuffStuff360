@@ -4,7 +4,7 @@ import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Context/CartContext1.jsx";
 import toast from "react-hot-toast";
-  
+  import { FaSearch, FaSlidersH } from "react-icons/fa";
 
 export default function Section2() {
   const { addToCart } = useCart();
@@ -87,6 +87,23 @@ export default function Section2() {
   };
 
   return (
+    <>
+      <div className="w-full px-2 md:px-0 flex justify-center my-24">
+          <div className="flex items-center w-[800px] bg-white rounded-full shadow-sm border border-gray-300 px-4 py-2 transition">
+            {/* 🔍 أيقونة البحث */}
+            <FaSearch className="text-gray-400 mr-3 text-lg" />
+    
+            {/* 📝 حقل الإدخال */}
+            <input
+              type="text"
+              placeholder="Search..."
+              className="flex-1 outline-none text-gray-700 placeholder-gray-400 text-sm"
+            />
+    
+            {/* ⚙️ أيقونة الفلترة */}
+            <FaSlidersH className="text-gray-400 text-lg ml-3 hover:text-[#440707] transition cursor-pointer" />
+          </div>
+        </div>
     <section className="px-4 py-10 ">
       <h2 className="text-white text-left text-3xl font-bold mb-8">Liquid</h2>
 
@@ -158,5 +175,6 @@ export default function Section2() {
         ))}
       </div>
     </section>
+    </>
   );
 }

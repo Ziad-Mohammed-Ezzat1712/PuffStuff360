@@ -8,6 +8,16 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import bgImage3 from '../../../public/bgImage3.png';
 import bgImage2 from '../../../public/bgImage2.png';
 import sp from '../../assets/Images/sp.png';
+import Footer from '../Footer/Footer';
+
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaSnapchat,
+  FaLinkedinIn,
+} from "react-icons/fa";
+
 export default function AboutUs() {
 const { totalItems } = useCart();
 const navigate = useNavigate();
@@ -20,7 +30,7 @@ const userName = localStorage.getItem("username"); // لو بتحفظ الاسم
 
 
   const navLinkClass = ({ isActive }) =>
-    isActive ? "hover:text-red-500 text-red-500 font-semibold" : "hover:text-red-500 text-white font-semibold";
+    isActive ? "hover:text-red-500 text-white font-semibold" : "hover:text-red-500 text-white font-semibold";
 
 const { scrollY } = useScroll();
 const opacity2 = useTransform(scrollY, [0, 300], [1, 0]);  
@@ -207,14 +217,14 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
 {/* div1 */}
   <motion.div 
   style={{ opacity: opacity2 }}
-  className="flex flex-col justify-center items-center pt-[80px] text-white text-center min-h-dvh px-4 max-w-4xl mx-auto z-50"
+  className="flex flex-col justify-center items-center md:pt-[80px] pt-[300px] text-white text-center min-h-dvh px-4 max-w-4xl mx-auto z-50"
 >
-  <h1 className="text-[90px] font-bold mb-4 text-white z-50">Egypt’s Leading Vape Store</h1>
-  <p className="text-[20px] mb-6 z-50 ">
+  <h1 className="md:text-[90px] text-[24px] font-bold mb-4 text-white z-50">Egypt’s Leading Vape Store</h1>
+  <p className="md:text-[20px] text-[16px] md:px-0 px-6 mb-6 z-50 ">
    We take pride in being the strongest and most trusted vape store in Egypt. Our mission is to offer premium vaping devices, top-quality e-liquids, and reliable accessories that meet the highest standards. Whether you’re a beginner or an experienced vaper, we provide a smooth and professional experience with products you can depend on. Your satisfaction and safety always come first.
   </p>
- <Link to="/" className='z-50'>
-  <button className="bg-black/20 w-[198px] text-[24px] text-white px-[28px] py-[8px] rounded-md hover:bg-black/30 transition z-50 ">
+ <Link to="/" className='z-50 md:mb-0'>
+  <button className="bg-black/20 w-[198px] cursor-pointer md:text-[24px] text-[16] text-white px-[28px] py-[8px] rounded-md hover:bg-black/30 transition z-50 ">
     Home
   </button>
  </Link>
@@ -255,6 +265,65 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
   </div>
 </motion.div>
 
+
+
+
+
+
+   <footer className="bg-black/40 text-gray-300 px-6 md:px-12 py-12 ">
+        <div className="max-w-screen-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 z-50">
+          
+          {/* Column 1: Logo */}
+          <div className="flex gap-8 items-start z-50">
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-24 w-auto object-contain"
+            />
+             <div className="flex flex-col justify-start gap-y-5 items-start z-50">
+              <p className="text-sm leading-relaxed text-left max-w-sm">
+              Hello, we are ABC. trying to make an effort to put the right people
+              for you to get the best results. Just insight
+            </p>
+
+            <p className="underline hover:text-white cursor-pointer text-sm">
+              (123) 456-7890
+            </p>
+             </div>
+             
+          </div>
+
+          {/* Column 2: About / Info */}
+          <div className="flex flex-col items-start justify-center space-y-3 z-50">
+          
+            {/* Social Icons */}
+            <div className="flex items-center gap-5 pt-3">
+              <a href="#" className="text-white transitio hover:text-blue-700">
+                <FaFacebookF size={18} />
+              </a>
+              <a href="#" className="text-white transition hover:text-blue-400">
+                <FaTwitter size={18} />
+              </a>
+              <a href="#" className="text-white transition hover:text-pink-600">
+                <FaInstagram size={18} />
+              </a>
+            </div>
+          </div>
+
+          {/* Column 3: Product */}
+          <div className="flex flex-col items-start z-50">
+            <h3 className="font-semibold text-lg text-white mb-4">NavLinks</h3>
+                     <NavLink to="/#" className={navLinkClass}>Home</NavLink>                                    
+<NavLink to="/products" className={navLinkClass}>Product</NavLink>                                    
+           
+<NavLink to="/about" className={navLinkClass}>About Us</NavLink>                                      
+<NavLink to="https://m.me/PuffStuffNasr" target="_blank" className={navLinkClass}>Contact US</NavLink>
+          </div>
+
+          {/* Column 4: Explore */}
+        
+        </div>
+      </footer>
 </section>
 
     </>
