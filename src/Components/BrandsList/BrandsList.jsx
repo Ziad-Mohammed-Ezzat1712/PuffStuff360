@@ -1,73 +1,49 @@
-import React, { useState } from 'react';
 
-const brands = [
-  "Acrohm", "Adam Bomb", "A final Course", "Air Factory", "Al Fakher", "Alien Vape", "Bad Drip Labs", "Bazooka", "BB Tank",
-  "Cali Alternatives", "Candy King", "CCELL", "Dab Rite", "Delta Extrax", "Dinner Lady", "Drip More", "Dotmod","Efest",'EHPro','ELEAF','ELEAF','Elysian','Enou','Fair Grounds','Fire Disposables','Flawless','Flum'
-  // ⬆️ Add full brand list here...
-];
+// eslint-disable-next-line no-unused-vars
+import React, { useContext,useState, useEffect } from 'react'
+import { BrandContext } from '../../Context/BrandContext'
+import { Link } from 'react-router-dom'
+
 
 export default function BrandsList() {
-  const [searchTerm, setSearchTerm] = useState('');
+  
+ const [Loading, setLoading] = useState(false)
+  let {AllBrands,Brands,setBrands} = useContext(BrandContext)
+ 
+ async function getAllBrands() {
+    await AllBrands()
+  }
 
-  // تصفية الماركات حسب البحث
-  const filteredBrands = brands
-    .filter(brand => brand.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort();
-
-  // تجميع الماركات تحت الحروف الأبجدية
-  const groupedBrands = filteredBrands.reduce((acc, brand) => {
-    const firstLetter = brand[0].toUpperCase();
-    if (!acc[firstLetter]) acc[firstLetter] = [];
-    acc[firstLetter].push(brand);
-    return acc;
-  }, {});
-
-  // توليد الحروف من A إلى Z
-  const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
-      toast.success(`${product.name} added to cart! 🛒`);
-    }, 800); // محاكاة تحميل بسيط
-  };
-
+  useEffect(() => {
+getAllBrands()
+  }, [])
+  
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 text-white">
-      <h2 className="text-2xl font-bold text-center mb-4">Brands We Carry</h2>
-      <p className="text-left mb-6 text-gray-300">
-       The vape community has garnered hundreds of phenomenal e-cigarettes brands. If you're looking for hardware brands that span across the globe, we've got you covered with e-cigarette companies like GeekVape, SMOK, Voopoo and more. Need a change of pace with a vape juice brand that hits your flavor palette just how you like? Browse below through our hundreds of e-liquid brands with favorites like Reds, BLVK, Bad Drip, Naked, and more!
+    <>
+    <h1 className=' text-white text-6xl font-medium'>Our Brands</h1>
+    <div className="row">
+    { Brands.length >0 ?  Brands.map((product)=> <div key={product.id} className='w-1/6 '>
+    <div  className="product p-2 my-2 text-start">
+     <img src={product.image} className='w-full h-60 object-cover rounded-lg' alt="brand's image" />
+     
+   </div>
+    </div>) :<> <div className="sk-circle">
+  <div className="sk-circle1 sk-child"></div>
+  <div className="sk-circle2 sk-child"></div>
+  <div className="sk-circle3 sk-child"></div>
+  <div className="sk-circle4 sk-child"></div>
+  <div className="sk-circle5 sk-child"></div>
+  <div className="sk-circle6 sk-child"></div>
+  <div className="sk-circle7 sk-child"></div>
+  <div className="sk-circle8 sk-child"></div>
+  <div className="sk-circle9 sk-child"></div>
+  <div className="sk-circle10 sk-child"></div>
+  <div className="sk-circle11 sk-child"></div>
+  <div className="sk-circle12 sk-child"></div>
+</div> </> }
 
-      </p>
-
-      {/* 🔍 مربع البحث */}
-      <div className="mb-6 flex justify-start">
-        <input
-          type="text"
-          placeholder="Search"
-          className="px-4 py-2 w-full max-w-md rounded border bg-black border-gray-500 text-white"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      {/* 🅰️ 🅱️ تصنيف بالحروف */}
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
-        {alphabet.map(letter => (
-          <div key={letter}>
-            <h3 className="text-lg text-left font-bold border-b border-gray-700 mb-2">{letter}</h3>
-            <ul className="space-y-1">
-              {groupedBrands[letter]?.map((brand, index) => (
-                <li key={index} className="text-sm text-left">{brand}</li>
-              )) || (
-                <li className="text-sm text-gray-600 italic">No brands</li>
-              )}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    
+    </div> 
+    </>
+  )
 }

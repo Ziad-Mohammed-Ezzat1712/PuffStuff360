@@ -40,6 +40,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import AllProducts from "./Components/AllProducts/AllProducts";
+import BrandContextProvider from "./Context/BrandContext";
 
 
 
@@ -77,6 +78,7 @@ let x = createBrowserRouter([
     {path:"/details",element:<DetailsPage />},
     {path:"/confirmation",element:<ConfirmationPage/>},
     {path:"/products",element:<AllProducts/>},
+    {path:"/brand",element:<BrandsList/>},
     ,
 
 
@@ -95,6 +97,7 @@ function App() {
   
   <>
    <ToastContainer />
+      <BrandContextProvider>
   <CartProvider>
        <Toaster position="top-center" reverseOrder={false} />
       <RouterProvider router={x}></RouterProvider>
@@ -103,6 +106,7 @@ function App() {
   
  
   </CartProvider>
+  </BrandContextProvider>
   </>
   )
 }

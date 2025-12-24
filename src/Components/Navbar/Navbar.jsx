@@ -49,6 +49,7 @@ const userName = localStorage.getItem("username"); // لو بتحفظ الاسم
               <li><NavLink to="/products" className={navLinkClass}>Product</NavLink>                                     </li>
            
               <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink>                                       </li>
+              <li><NavLink to="/brand" className={navLinkClass}>Brands</NavLink>                                       </li>
               <li><NavLink to="https://m.me/PuffStuffNasr" target="_blank" className={navLinkClass}>Contact US</NavLink></li>
             </ul>
           </div>
