@@ -9,6 +9,7 @@ import Section3 from '../Section3/Section3'
 import Section5 from '../Section5/Section5'
 import Section6 from '../Section6/Section6'
 import Section7 from '../Section7/Section7'
+import Spinner from '../Spinner/Spinner'
 
 
 export default function Home() {
@@ -18,6 +19,8 @@ export default function Home() {
     <>
 
     {/* <MainSlider/> */}
+    <Spinner/>
+
     <div className=' hidden md:block'>
       <Section1/>
     </div>

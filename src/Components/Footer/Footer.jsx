@@ -63,6 +63,7 @@ export default function Footer() {
 <NavLink to="/products" className={navLinkClass}>Product</NavLink>                                    
            
 <NavLink to="/about" className={navLinkClass}>About Us</NavLink>                                      
+<NavLink to="/brand" className={navLinkClass}>Brands</NavLink>                                      
 <NavLink to="https://m.me/PuffStuffNasr" target="_blank" className={navLinkClass}>Contact US</NavLink>
           </div>
 

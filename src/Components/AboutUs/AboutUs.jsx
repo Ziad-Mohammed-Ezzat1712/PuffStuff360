@@ -77,6 +77,7 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
               <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
             
               <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
+              <li><NavLink to="/brand" className={navLinkClass}>Brands</NavLink>                                       </li>
               <li><NavLink to="https://" target="_blank" className={navLinkClass}>Contact US</NavLink></li>
             </ul>
           </div>
@@ -206,8 +207,8 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
               <ul className="flex flex-col gap-2 text-sm font-medium">
                 <li><NavLink to="/#" className={navLinkClass}>Home</NavLink></li>
                 <li><NavLink to="/cart" className={navLinkClass}>Product</NavLink></li>
-              
                 <li><NavLink to="/about" className={navLinkClass}>About Us</NavLink></li>
+                <li><NavLink to="/brand" className={navLinkClass}>Brands</NavLink></li>
                 <li><NavLink to="/cart" className={navLinkClass}>Contact US</NavLink></li>
               </ul>
             </div>
