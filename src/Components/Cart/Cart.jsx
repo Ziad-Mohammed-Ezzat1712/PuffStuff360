@@ -3,6 +3,7 @@ import React from "react";
 import { useCart } from "../../Context/CartContext1.jsx";
 import Shape from "../shape/shape.jsx";
 import { Link } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function Cart() {
   const {
@@ -27,7 +28,14 @@ export default function Cart() {
       </h2>
       <Shape />
       {cartItems.length === 0 ? (
-        <p className="text-center text-gray-400 text-lg">Your cart is empty.</p>
+        <>
+        <div className=" space-y-12">
+          <p className="text-center text-gray-400 text-4xl">Your cart is empty.</p>
+        <div className=" text-5xl" >
+          <Link to={"/products"} className="text-white flex justify-center gap-4 hover:text-red-700">Go To Shopping <FaShoppingCart />  </Link>
+        </div>
+        </div>
+        </>
       ) : (
         <>
           <h1 className="text-left text-[28px] font-semibold">Your cart</h1>
@@ -79,7 +87,7 @@ export default function Cart() {
                       </button>
                     </div>
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item)}
                       className="hover:bg-[#790000] hover:text-white px-2 top-[-230%] left-[82%] absolute mt-5 rounded-lg text-black border border-gray-400 h-8 font-medium self-center sm:self-auto transition"
                     >
                       <i className="fa-regular fa-trash-can text-md"></i>

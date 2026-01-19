@@ -67,7 +67,7 @@ const userName = localStorage.getItem("username"); // لو بتحفظ الاسم
               </NavLink>
 
               {/* Heart Icon */}
-              <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="cart">
+              <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="wishlist">
                 <Heart size={24} color="#000" />
                 <div className="absolute top-[-13px] right-[-15px] flex items-center justify-center size-5 rounded-full bg-red-600 text-white text-xs font-bold">
                   {totalItems}

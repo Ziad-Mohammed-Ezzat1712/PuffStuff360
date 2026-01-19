@@ -10,8 +10,6 @@ import NotFound from './Components/NotFound/NotFound';
 import   { Toaster } from 'react-hot-toast';
 import Checkout from './Components/Checkout/Checkout';
 import Allorders from './Components/Allorders/Allorders';
-import DashboardLayout from './Components/DashboardLayout/DashboardLayout';
-import ProductsDashboard from './Components/ProductsDashboard/ProductsDashboard';
 import BrandsList from './Components/BrandsList/BrandsList';
 import PremiumProducts from './Components/PremiumProducts/PremiumProducts';
 import VapingDevices from './Components/VapingDevices/VapingDevices';
@@ -41,6 +39,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import AllProducts from "./Components/AllProducts/AllProducts";
 import BrandContextProvider from "./Context/BrandContext";
+import WishList from "./Components/WishList/WishList";
+import { WishlistProvider } from "./Context/WishlistContext";
 
 
 
@@ -49,6 +49,7 @@ let x = createBrowserRouter([
     {path : "" , element:<Layout/>,children:[
     {index : true,element:<Home/> },
     {path:"cart",element:<Cart/>},
+    {path:"wishlist",element:<WishList/>},
     {path:"login",element:<Login/>},
     {path:"register",element:<Register/>},
     {path:"*",element:<NotFound/>},
@@ -96,9 +97,11 @@ function App() {
   return(
   
   <>
+  <WishlistProvider>
    <ToastContainer />
       <BrandContextProvider>
   <CartProvider>
+  
        <Toaster position="top-center" reverseOrder={false} />
       <RouterProvider router={x}></RouterProvider>
    
@@ -106,7 +109,9 @@ function App() {
   
  
   </CartProvider>
+ 
   </BrandContextProvider>
+  </WishlistProvider>
   </>
   )
 }
