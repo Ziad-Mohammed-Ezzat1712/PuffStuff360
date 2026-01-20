@@ -39,8 +39,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import AllProducts from "./Components/AllProducts/AllProducts";
 import BrandContextProvider from "./Context/BrandContext";
-import WishList from "./Components/WishList/WishList";
-import { WishlistProvider } from "./Context/WishlistContext";
+// import WishList from "./Components/WishList/WishList";
+// import { WishlistProvider } from "./Context/WishlistContext";
 
 
 
@@ -49,7 +49,7 @@ let x = createBrowserRouter([
     {path : "" , element:<Layout/>,children:[
     {index : true,element:<Home/> },
     {path:"cart",element:<Cart/>},
-    {path:"wishlist",element:<WishList/>},
+    // {path:"wishlist",element:<WishList/>},
     {path:"login",element:<Login/>},
     {path:"register",element:<Register/>},
     {path:"*",element:<NotFound/>},
@@ -97,7 +97,7 @@ function App() {
   return(
   
   <>
-  <WishlistProvider>
+  {/* <WishlistProvider> */}
    <ToastContainer />
       <BrandContextProvider>
   <CartProvider>
@@ -111,7 +111,7 @@ function App() {
   </CartProvider>
  
   </BrandContextProvider>
-  </WishlistProvider>
+  {/* </WishlistProvider> */}
   </>
   )
 }
