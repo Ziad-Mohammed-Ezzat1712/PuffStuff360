@@ -139,6 +139,18 @@ export default function ProductDetails() {
           </div>
         )}
 
+            {/* ================= FLAVOR ================= */}
+        {(product.liquid || product.salt || product.disposable) && (
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Type</h3>
+            <p className="text-gray-300">
+              {product.liquid?.type_en ||
+                product.salt?.type_en ||
+                product.disposable?.type_en}
+            </p>
+          </div>
+        )}
+
         {/* ================= NIC / SIZE ================= */}
         <div className="flex gap-10 flex-wrap">
           {(product.liquid || product.salt || product.disposable) && (
