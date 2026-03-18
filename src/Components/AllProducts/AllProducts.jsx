@@ -7,44 +7,63 @@ import { Heart } from "lucide-react";
 
 export default function AllProducts() {
   const { addToCart } = useCart();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingId, setLoadingId] = useState(null);
+
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
     axios
-      .get(
-        `https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`
-      )
+      .get(`/api/products/getallproducts.php?nocache=${Date.now()}`)
       .then((res) => {
-        if (res.data.status) {
-          const formatted = res.data.data.map((item) => ({
-            id: item.product_id,
-            name: item.name_en,
-            desc: item.description_en
-              ? item.description_en.slice(0, 80)
-              : "",
-            price: item.price,
-            rating: 4.6, // مؤقت
-            image: item.image,
-            category: item.category_key,
-            stock: item.stock,
-          }));
+        console.log("API RESPONSE:", res.data);
+
+        if (res.data.status && Array.isArray(res.data.data)) {
+          const formatted = res.data.data.map((item) => {
+            const product = item.data || {};
+
+            const variant =
+              item.device?.[0] ||
+              item.disposable?.[0] ||
+              item.liquid?.[0] ||
+              item.salt?.[0] ||
+              item.accessories?.[0] ||
+              {};
+
+            return {
+              id: product.product_id || Math.random(),
+              name: product.product_name_en || "No Name",
+              desc: product.description_en
+                ? product.description_en.replace(/"/g, "").slice(0, 80)
+                : "",
+              price: variant.price || 0,
+              rating: 4.6,
+              image: product.image || "",
+              category: product.category_en || "",
+              stock: variant.stock || 0,
+            };
+          });
+
+          console.log("FORMATTED PRODUCTS:", formatted);
 
           setProducts(formatted);
-
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error("API ERROR:", err);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   // ================= ADD TO CART =================
   const handleAddToCart = (product) => {
     setLoadingId(product.id);
+
     setTimeout(() => {
       addToCart(product);
       setLoadingId(null);
+
       toast.success(`${product.name} added to cart 🛒`);
     }, 800);
   };
@@ -58,7 +77,8 @@ export default function AllProducts() {
       {/* Sort */}
       <div className="flex justify-end items-center gap-3 mb-6">
         <h1 className="text-gray-300 font-medium">Sort by</h1>
-        <select className="bg-white text-gray-700 px-4 py-2 rounded-lg border focus:ring-2 focus:ring-[#4E0000]">
+
+        <select className="bg-white text-gray-700 px-4 py-2 rounded-lg border">
           <option>Select</option>
           <option>Best Seller</option>
           <option>Price: Low to High</option>
@@ -71,6 +91,7 @@ export default function AllProducts() {
         {/* ================= FILTERS ================= */}
         <div className="bg-white p-6 hidden md:block rounded-2xl shadow-lg h-fit sticky top-20">
           <h3 className="text-xl font-semibold mb-4">Filters</h3>
+
           <hr className="mb-4" />
 
           {/* Categories */}
@@ -94,40 +115,6 @@ export default function AllProducts() {
               </div>
             ))}
           </div>
-
-          <hr className="my-4" />
-
-          {/* Size */}
-          <h4 className="font-semibold mb-3">Size</h4>
-          <div className="flex gap-3 mb-4">
-            {[30, 60, 100].map((size) => (
-              <button
-                key={size}
-                className="px-4 py-2 rounded-full bg-gray-100 border"
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-
-          <hr className="my-4" />
-
-          {/* NIC */}
-          <h4 className="font-semibold mb-3">NIC</h4>
-          <div className="flex flex-wrap gap-3">
-            {[3, 6, 8, 12, 50].map((nic) => (
-              <button
-                key={nic}
-                className="px-4 py-2 rounded-full bg-gray-100 border"
-              >
-                {nic}
-              </button>
-            ))}
-          </div>
-
-          <button className="w-full mt-6 bg-[#4E0000] text-white py-3 rounded-full">
-            Apply Filter
-          </button>
         </div>
 
         {/* ================= PRODUCTS ================= */}
@@ -138,13 +125,19 @@ export default function AllProducts() {
             </p>
           )}
 
+          {!loading && products.length === 0 && (
+            <p className="text-white text-xl col-span-3 text-center">
+              No products found
+            </p>
+          )}
+
           {!loading &&
             products.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-xl shadow-md overflow-hidden
-                           hover:shadow-2xl transition-all duration-500
-                           hover:scale-105 flex flex-col"
+                hover:shadow-2xl transition-all duration-500
+                hover:scale-105 flex flex-col"
               >
                 {/* Image */}
                 <Link to={`/product/${product.id}`}>
@@ -152,22 +145,22 @@ export default function AllProducts() {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="h-52 object-contain transition-transform duration-500 ease-in-out hover:animate-tilt"
+                      className="h-52 object-contain"
                     />
                   </div>
                 </Link>
 
                 {/* Content */}
-                <div className="p-4 flex flex-col flex-1 text-left gap-3">
-                  <h3 className="text-lg font-semibold">
+                <div className="p-4 flex flex-col flex-1 gap-3">
+                  <h3 className="text-lg font-semibold text-left">
                     {product.name}
                   </h3>
 
-                  <p className="text-gray-500 text-sm line-clamp-2">
+                  <p className="text-gray-500 text-sm line-clamp-2 text-left">
                     {product.desc}
                   </p>
 
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center ">
                     <span className="font-bold">
                       EGP {product.price}
                     </span>

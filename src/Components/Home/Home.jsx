@@ -15,13 +15,20 @@ export default function Home() {
       <div className=" hidden md:block">
       <Section1 />
       </div>
-      <Section2 />
+     <div className="my-12">
+       <Section2 />
+     </div>
 
       <Section4 />
+      <div className="my-12">
       <Section5 />
+      </div>
+      <div className="my-12">
       <Section6 />
-
+      </div>
+<div className="my-12">
       <Section7 />
+      </div>
     </>
   );
 }
