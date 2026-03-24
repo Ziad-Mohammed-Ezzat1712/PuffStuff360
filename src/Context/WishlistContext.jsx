@@ -12,9 +12,9 @@
 //   const token = localStorage.getItem("userToken"); // توكن المستخدم
 
 //   const API = {
-//     add: "/api/wishlist/addToWishlist.php",
-//     getAll: `/api/wishlist/getAllWishlist.php?nocache=${Date.now()}`,
-//     delete: "/api/wishlist/delete.php",
+//     add: "https://dashboard.splash-e-liquid.com/wishlist/addToWishlist.php",
+//     getAll: `https://dashboard.splash-e-liquid.com/wishlist/getAllWishlist.php?nocache=${Date.now()}`,
+//     delete: "https://dashboard.splash-e-liquid.com/wishlist/delete.php",
 //   };
 
 //   // ===== Fetch wishlist =====
