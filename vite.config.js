@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'https://dashboard.splash-e-liquid.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\//, ''),
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
