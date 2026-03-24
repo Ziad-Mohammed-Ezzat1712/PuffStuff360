@@ -14,7 +14,7 @@ export default function Spinner() {
   useEffect(() => {
     axios
       .get(
-        `/api/spinner/getActiveSpinnerForUser.php?nocache=${Date.now()}`
+        `https://dashboard.splash-e-liquid.com/spinner/getActiveSpinnerForUser.php?nocache=${Date.now()}`
       )
       .then((res) => {
         if (res.data.status) {
@@ -43,7 +43,7 @@ export default function Spinner() {
 
     try {
       const res = await axios.post(
-        `/api/spinner/spinSpinner.php?spinner_id=${spinner.id}`,
+        `https://dashboard.splash-e-liquid.com/spinner/spinSpinner.php?spinner_id=${spinner.id}`,
         { email }
       );
 
