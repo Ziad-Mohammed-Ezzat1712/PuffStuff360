@@ -9,7 +9,7 @@ export default function BrandContextProvider(props){
 
      const [Brands, setBrands] = useState([])
 function AllBrands(params) {
-   axios.get(`https://dashboard.splash-e-liquid.com/brand/getBrands.php?nocache=${Date.now()}`)
+   axios.get(`/api/brand/getBrands.php?nocache=${Date.now()}`)
     .then((res)=> {
          console.log(res);
          setBrands(res.data.data)
