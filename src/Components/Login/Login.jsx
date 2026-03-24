@@ -20,7 +20,7 @@ async function handleLogin(values) {
   formData.append("password", values.password);
 
   axios
-    .post("https://dashboard.splash-e-liquid.com/auth/userAuth/login.php", formData, {
+    .post("/api/auth/userAuth/login.php", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

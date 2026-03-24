@@ -189,7 +189,7 @@
 //   useEffect(() => {
 //     axios
 //       .get(
-//         `https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`
+//         `/api/products/getallproducts.php?nocache=${Date.now()}`
 //       )
 //       .then((res) => {
 //         if (res.data.status) {
@@ -351,7 +351,7 @@ export default function Section4() {
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
     axios
-      .get(`https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`)
+      .get(`/api/products/getallproducts.php?nocache=${Date.now()}`)
       .then((res) => {
         if (res.data.status) {
 
