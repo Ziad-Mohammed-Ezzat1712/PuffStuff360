@@ -25,7 +25,7 @@ async function handleRegester(values) {
 
   try {
     const res = await axios.post(
-      `https://dashboard.splash-e-liquid.com/auth/userAuth/register.php`,
+      `//auth/userAuth/register.php`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },

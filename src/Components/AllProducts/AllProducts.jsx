@@ -15,7 +15,7 @@ export default function AllProducts() {
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
     axios
-      .get(`https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`)
+      .get(`//products/getallproducts.php?nocache=${Date.now()}`)
       .then((res) => {
         console.log("API RESPONSE:", res.data);
 

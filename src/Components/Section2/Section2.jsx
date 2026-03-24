@@ -17,7 +17,7 @@ export default function Section2() {
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
     axios
-      .get(`https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`)
+      .get(`//products/getallproducts.php?nocache=${Date.now()}`)
       .then((res) => {
         if (res.data.status) {
 

@@ -6,11 +6,11 @@ import { toast } from "react-hot-toast";
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
-const UPDATE_API = "https://dashboard.splash-e-liquid.com/cart/updateCart.php";
+const UPDATE_API = "//cart/updateCart.php";
 
-const DELETE_API = "https://dashboard.splash-e-liquid.com/cart/deleteFromCart.php";
-const ADD_API = "https://dashboard.splash-e-liquid.com/cart/add.php";
-const DISCOUNT_API = `https://dashboard.splash-e-liquid.com/discounts/getDiscountsForUser.php?nocache=${Date.now()}`;
+const DELETE_API = "//cart/deleteFromCart.php";
+const ADD_API = "//cart/add.php";
+const DISCOUNT_API = `//discounts/getDiscountsForUser.php?nocache=${Date.now()}`;
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
@@ -39,7 +39,7 @@ export function CartProvider({ children }) {
     if (!token) return setCartItems([]); // Stop unless token is ready
 
     try {
-      const res = await axios.get(`https://dashboard.splash-e-liquid.com/cart/getCart.php?nocache=${Date.now()}`, authHeader);
+      const res = await axios.get(`//cart/getCart.php?nocache=${Date.now()}`, authHeader);
 
       const item = Array.isArray(res.data.data?.items) ? res.data.data?.items : [];
    

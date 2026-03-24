@@ -31,7 +31,7 @@ export default function ProductDetails() {
     const fetchProduct = async () => {
       try {
 
-        const res = await axios.get(`https://dashboard.splash-e-liquid.com/products/getOneProduct.php?id=${id}&_t=${Date.now()}`);
+        const res = await axios.get(`//products/getOneProduct.php?id=${id}&_t=${Date.now()}`);
 
         setProduct(res.data.data);
 
