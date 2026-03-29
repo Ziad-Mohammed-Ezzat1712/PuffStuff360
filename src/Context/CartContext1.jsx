@@ -62,24 +62,25 @@ export function CartProvider({ children }) {
   // ---------------------------
   const addToCart = async (product) => {
     if (!token) return toast.error("You must be logged in");
+console.log(error);
 
-    setLoadingId(product.id);
+    setLoadingId(product.data.product_id);
 
     try {
       const formData = new FormData();
-      formData.append("product_id", product.id);
+      formData.append("product_id", product.data.product_id);
       formData.append("quantity", 1);
 
       const res = await axios.post(ADD_API, formData, authHeader);
 
       if (res.data.status) {
-        const addedProduct = res.data.data.product;
+        const addedProduct = res.data.data.product_id;
 
         setCartItems((prev) => {
-          const exists = prev.find((p) => p.id === addedProduct.id);
+          const exists = prev.find((p) => p.product_id === addedProduct.product_id);
           if (exists) {
             return prev.map((p) =>
-              p.id === addedProduct.id
+              p.product_id === addedProduct.product_id
                 ? { ...p, quantity: addedProduct.quantity }
                 : p
             );

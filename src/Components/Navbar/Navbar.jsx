@@ -117,7 +117,7 @@ export default function Navbar() {
 </button>
 
               {/* User */}
-              <div className="relative">
+              <div className="relative text-black">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="py-2 px-2 bg-white rounded-full"
@@ -126,7 +126,7 @@ export default function Navbar() {
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-40 text-black bg-white rounded-xl shadow-lg z-50">
                     {!token ? (
                       <>
                         <NavLink to="/login" className="block px-4 py-2 hover:bg-[#4E0000] hover:text-white">
@@ -138,11 +138,11 @@ export default function Navbar() {
                       </>
                     ) : (
                       <>
-                        <div className="px-4 py-2 font-semibold">
+                        <div className="px-4 py-2 text-black font-semibold">
                           {t.hello} {userName ?? "User"}
                         </div>
                         <button
-                          className="w-full text-left px-4 py-2 hover:bg-[#4E0000] hover:text-white"
+                          className="w-full text-left text-black px-4 py-2 hover:bg-[#4E0000] hover:text-white"
                           onClick={() => {
                             localStorage.clear();
                             navigate("/login");
