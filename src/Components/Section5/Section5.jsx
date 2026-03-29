@@ -384,7 +384,7 @@ export default function Section4() {
 
                 image: item.data?.image,
 
-                flavorCount: item.device?.length || 0,
+                colorCount: item.device?.length || 0,
 
                 variants: item.device || [],
               };
@@ -422,17 +422,12 @@ export default function Section4() {
         </h2>
 
         <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-gray-300 font-medium">
-            {isArabic ? "ترتيب حسب" : "Sort by"}
-          </h1>
-
-          <select className="bg-white text-gray-700 px-4 py-2 rounded-lg border focus:ring-2 focus:ring-[#4E0000]">
-            <option>{isArabic ? "اختر" : "Select"}</option>
-            <option>{isArabic ? "الأكثر مبيعًا" : "Best Seller"}</option>
-            <option>{isArabic ? "السعر: من الأقل للأعلى" : "Price: Low to High"}</option>
-            <option>{isArabic ? "السعر: من الأعلى للأقل" : "Price: High to Low"}</option>
-            <option>{isArabic ? "الأحدث" : "Newest"}</option>
-          </select>
+           <h1 className="text-gray-300 font-bold text-[24px]">
+                    <Link className="text-white hover:text-[#c40a0a]" to="/products">
+                        {isArabic ? " اطلع علي جميع المنتجات" : "View All Products"}
+        
+                  </Link>
+                 </h1>
         </div>
       </div>
 
@@ -483,7 +478,7 @@ export default function Section4() {
                   </span>
 
                   <span className="text-xs text-gray-500">
-                    {product.flavorCount} Flavors
+                    {product.colorCount} Colors
                   </span>
 
                 </div>

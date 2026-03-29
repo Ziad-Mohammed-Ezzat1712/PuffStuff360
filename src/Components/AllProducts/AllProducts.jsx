@@ -4,10 +4,11 @@ import { useCart } from "../../Context/CartContext1.jsx";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Heart } from "lucide-react";
+import { useLanguage } from "../../Context/LanguageContext";
 
 export default function AllProducts() {
   const { addToCart } = useCart();
-
+  const { isArabic } = useLanguage();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingId, setLoadingId] = useState(null);
@@ -21,16 +22,18 @@ export default function AllProducts() {
 
         if (res.data.status && Array.isArray(res.data.data)) {
           const formatted = res.data.data.map((item) => {
+            
             const product = item.data || {};
-
-            const variant =
+ const variant =
               item.device?.[0] ||
               item.disposable?.[0] ||
               item.liquid?.[0] ||
               item.salt?.[0] ||
               item.accessories?.[0] ||
               {};
-
+//  isDevice = item.data?.category_en === "device";
+//  isLiquid = item.data?.category_en === "liquid";
+           
             return {
               id: product.product_id || Math.random(),
               name: product.product_name_en || "No Name",
@@ -42,6 +45,12 @@ export default function AllProducts() {
               image: product.image || "",
               category: product.category_en || "",
               stock: variant.stock || 0,
+              flavorCount:
+                item.liquid?.length ||
+                item.salt?.length ||
+                item.disposable?.length ||
+                0,
+              colorCount: item.device?.length || 0,
             };
           });
 
@@ -70,9 +79,7 @@ export default function AllProducts() {
 
   return (
     <>
-      <h2 className="text-[50px] mb-24 text-white text-center">
-        Our Products
-      </h2>
+      <h2 className="text-[50px] mb-24 text-white text-center">Our Products</h2>
 
       {/* Sort */}
       <div className="flex justify-end items-center gap-3 mb-6">
@@ -106,10 +113,7 @@ export default function AllProducts() {
               "FULL KITS",
               "ACCESSORIES",
             ].map((item) => (
-              <div
-                key={item}
-                className="flex justify-between cursor-pointer"
-              >
+              <div key={item} className="flex justify-between cursor-pointer">
                 <span>{item}</span>
                 <span>{">"}</span>
               </div>
@@ -161,10 +165,11 @@ export default function AllProducts() {
                   </p>
 
                   <div className="flex justify-between items-center ">
-                    <span className="font-bold">
-                      EGP {product.price}
-                    </span>
-
+                    <span className="font-bold">EGP {product.price}</span>
+                    {/* <span className="text-xs text-gray-500">
+                      {isDevice ? colorCount : ""}
+                      {isLiquid ? flavorCount : ""}
+                    </span> */}
                     <div className="text-yellow-400 text-sm">
                       ★★★★☆
                       <span className="text-gray-600 text-xs ml-1">
@@ -175,23 +180,14 @@ export default function AllProducts() {
 
                   {/* Buttons */}
                   <div className="flex items-center gap-2 mt-auto">
-                    <button className="w-[45%] border border-[#A59F9F] py-2 rounded-lg hover:bg-[#4E0000] hover:text-white transition">
-                      Buy Now
-                    </button>
-
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      disabled={loadingId === product.id}
-                      className={`w-[45%] py-2 rounded-lg text-white transition ${
-                        loadingId === product.id
-                          ? "bg-gray-400"
-                          : "bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000]"
-                      }`}
+                    <Link
+                      className={`w-[95%] text-center py-2 rounded-lg text-white transition bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000] `}
+                      to={`/product/${product.id}`}
                     >
-                      {loadingId === product.id
-                        ? "Adding..."
-                        : "Add to Cart"}
-                    </button>
+                      <button>
+                        {isArabic ? " تفاصيل المنتج" : "View Details"}
+                      </button>
+                    </Link>
 
                     <button className="w-10 h-10 border rounded-lg flex items-center justify-center">
                       <Heart size={20} />

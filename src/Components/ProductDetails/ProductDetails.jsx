@@ -159,13 +159,13 @@ export default function ProductDetails() {
       {/* ================= IMAGE ================= */}
       <div className="flex-1 flex justify-center">
 
-        <div className="bg-white rounded-2xl p-10 w-full max-w-md shadow-lg">
+        <div className="bg-white rounded-2xl h-dvh p-10 w-full max-w-md shadow-lg">
 
           <img
             src={
               selectedFlavor?.images?.[0] ||
               selectedColor?.images?.[0] ||
-              product.image
+              product.data.image
             }
             alt={product.data.product_name_en}
             className="w-full h-full object-contain"
@@ -183,7 +183,7 @@ export default function ProductDetails() {
         </h2>
 
         <p className="text-2xl font-semibold">
-          {selectedFlavor?.price || product.price || selectedColor.price} EG
+          {selectedFlavor?.price || selectedColor?.price|| product.price } EG
         </p>
 
         <p className="text-sm text-gray-400">
@@ -225,6 +225,32 @@ export default function ProductDetails() {
 </>
         )}
 
+{/* num-puffs */}
+
+  {(product.disposable?.length > 0) && (
+
+          <div>
+
+            <div className="flex gap-3 flex-wrap">
+
+              {(product.disposable).map((item, idx) => (
+
+               
+               <>
+               
+            <div className="flex gap-2 justify-between items-center text-center ">
+                  
+               number of puffs: <p>{item.number_of_puffs}</p>
+            </div>
+               </>
+
+              ))}
+
+            </div>
+
+          </div>
+
+        )}
         {/* ================= FLAVORS ================= */}
 
         {flavors.length > 0 && (
@@ -256,7 +282,7 @@ export default function ProductDetails() {
                     className="w-full h-20 object-contain"
                   />
                  <h3 className="text-black text-sm text-center">
-                  {flavor.flavor_en}
+                  {flavor.flavor_en} <br /> {flavor.nicotine_en}mg
                  </h3>
 
                 </div>
