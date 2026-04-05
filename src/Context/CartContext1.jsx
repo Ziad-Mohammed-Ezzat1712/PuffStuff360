@@ -1,4 +1,3 @@
-// CartContext1.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -6,248 +5,199 @@ import { toast } from "react-hot-toast";
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
-const UPDATE_API = "https://dashboard.splash-e-liquid.com/cart/updateCart.php";
-
-const DELETE_API = "https://dashboard.splash-e-liquid.com/cart/deleteFromCart.php";
-const ADD_API = "https://dashboard.splash-e-liquid.com/cart/add.php";
-const DISCOUNT_API = `https://dashboard.splash-e-liquid.com/discounts/getDiscountsForUser.php?nocache=${Date.now()}`;
+// APIs
+const GET_API = `https://dashboard.splash-e-liquid.com/cart/getCart.php`;
+const ADD_API = `https://dashboard.splash-e-liquid.com/cart/add.php`;
+const UPDATE_API = `https://dashboard.splash-e-liquid.com/cart/updateCart.php`;
+const DELETE_API = `https://dashboard.splash-e-liquid.com/cart/deleteFromCart.php`;
+const DISCOUNT_API = `https://dashboard.splash-e-liquid.com/discounts/getDiscountsForUser.php`;
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [cartSummary, setCartSummary] = useState(null);
   const [loadingId, setLoadingId] = useState(null);
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
 
-  // ---------------------------
-  // FIX: Sync token correctly
-  // ---------------------------
   const [token, setToken] = useState(localStorage.getItem("userToken"));
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("userToken");
-    setToken(savedToken);
+    setToken(localStorage.getItem("userToken"));
   }, []);
 
   const authHeader = {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
 
-  // ---------------------------
-  // Fetch Cart
-  // ---------------------------
+  // =========================
+  // FETCH CART
+  // =========================
   const fetchCart = async () => {
-    if (!token) return setCartItems([]); // Stop unless token is ready
+    if (!token) return;
 
     try {
-      const res = await axios.get(`https://dashboard.splash-e-liquid.com/cart/getCart.php?nocache=${Date.now()}`, authHeader);
-
-      const item = Array.isArray(res.data.data?.items) ? res.data.data?.items : [];
-   
-      setCartItems(item);
+      const res = await axios.get(`${GET_API}?nocache=${Date.now()}`, authHeader);
+      const items = res.data.data?.items || [];
+      const summary = res.data.data?.summary || null;
+      setCartItems(items);
+      setCartSummary(summary);
     } catch (err) {
       console.error(err);
       setCartItems([]);
+      setCartSummary(null);
       toast.error("Failed to fetch cart");
     }
   };
 
-  // Fetch only when token is ready
   useEffect(() => {
-    if (!token) return; // avoid empty cart on refresh
-    fetchCart();
+    if (token) fetchCart();
   }, [token]);
 
-  // ---------------------------
-  // Add to cart
-  // ---------------------------
-  const addToCart = async (product) => {
-    if (!token) return toast.error("You must be logged in");
-console.log(error);
+  // =========================
+  // ADD TO CART (variant_id)
+  // =========================
+const addToCart = async (cartProduct) => {
+  if (!token) return toast.error("You must be logged in");
 
-    setLoadingId(product.data.product_id);
+  const variantId = cartProduct?.variant?.variant_id;
+  if (!variantId) return toast.error("Variant not found");
+
+  setLoadingId(variantId);
+
+  try {
+    const formData = new FormData();
+    formData.append("variant_id", variantId);
+    formData.append("quantity", cartProduct.quantity || 1);
+
+    const res = await axios.post(ADD_API, formData, authHeader);
+
+    if (res.data.status) {
+      // toast.success("Added to cart 🛒");
+      await fetchCart();
+    } else {
+      toast.error(res.data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to add product");
+  } finally {
+    setLoadingId(null);
+  }
+};
+
+  // =========================
+  // REMOVE FROM CART
+  // =========================
+  const removeFromCart = async (item) => {
+    if (!token) return toast.error("You must be logged in");
 
     try {
       const formData = new FormData();
-      formData.append("product_id", product.data.product_id);
-      formData.append("quantity", 1);
+      formData.append("cart_id", item.cart_id);
 
-      const res = await axios.post(ADD_API, formData, authHeader);
-
-      if (res.data.status) {
-        const addedProduct = res.data.data.product_id;
-
-        setCartItems((prev) => {
-          const exists = prev.find((p) => p.product_id === addedProduct.product_id);
-          if (exists) {
-            return prev.map((p) =>
-              p.product_id === addedProduct.product_id
-                ? { ...p, quantity: addedProduct.quantity }
-                : p
-            );
-          } else {
-            return [...prev, addedProduct];
-          }
-        });
-
-        toast.success(`${addedProduct.name_en} added to cart! 🛒`);
-      } else {
-        toast.error(res.data.message || "Failed to add product");
-      }
+      await axios.post(DELETE_API, formData, authHeader);
+      toast.success("Item removed");
+      await fetchCart();
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Failed to add product");
-    } finally {
-      setLoadingId(null);
+      toast.error("Failed to remove item");
     }
   };
 
-  // ---------------------------
-  // Remove from cart
-  // ---------------------------
-  const removeFromCart = async (cartItem) => {
-  if (!token) return toast.error("You must be logged in");
-
-  try {
-    const formData = new FormData();
-    formData.append("cart_id", cartItem.cart_id);
-
-    await axios.post(DELETE_API, formData, authHeader);
-
-    setCartItems((prev) => prev.filter((i) => i.cart_id !== cartItem.cart_id));
-
-    toast.success("Item removed");
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to remove item");
-  }
-};
-
-
-  // ---------------------------
-  // Update quantity
-  // ---------------------------
- const updateQuantity = async (cartId, quantity) => {
-  if (!token) return toast.error("You must be logged in");
-
-  try {
-    const formData = new FormData();
-    formData.append("cart_id", cartId);
-    formData.append("quantity", quantity);
-
-    const res = await axios.post(UPDATE_API, formData, authHeader);
-
-    if (res.data.status) {
-      setCartItems((prev) =>
-        prev.map((item) =>
-          item.cart_id === cartId ? { ...item, quantity } : item
-        )
-      );
-    } else {
-      toast.error(res.data.message || "Failed to update quantity");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to update quantity");
-  }
-};
-
-  const increaseQuantity = (item) =>
-    updateQuantity(item.cart_id, item.quantity + 1);
-
- const decreaseQuantity = (item) => {
-  if (item.quantity <= 1) {
-    // لو واحد → احذف بالـ cart_id
-    removeFromCart(item);
-  } else {
-    // لو أكتر من واحد → قلل الكمية
-    updateQuantity(item.cart_id, item.quantity - 1);
-  }
-};
-
-  // ---------------------------
-  // Clear Cart
-  // ---------------------------
-  const clearCart = async () => {
+  // =========================
+  // UPDATE QUANTITY
+  // =========================
+  const updateQuantity = async (cartId, quantity) => {
     if (!token) return toast.error("You must be logged in");
 
     try {
-      for (let item of cartItems) {
-        await axios.post(DELETE_API, { id: item.id }, authHeader);
+      const formData = new FormData();
+      formData.append("cart_id", cartId);
+      formData.append("quantity", quantity);
+
+      const res = await axios.post(UPDATE_API, formData, authHeader);
+
+      if (res.data.status) {
+        await fetchCart();
+      } else {
+        toast.error(res.data.message);
       }
-      setCartItems([]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update quantity");
+    }
+  };
+
+  const increaseQuantity = (item) => updateQuantity(item.cart_id, item.quantity + 1);
+  const decreaseQuantity = (item) =>
+    item.quantity <= 1 ? removeFromCart(item) : updateQuantity(item.cart_id, item.quantity - 1);
+
+  // =========================
+  // CLEAR CART
+  // =========================
+  const clearCart = async () => {
+    if (!token) return;
+
+    try {
+      for (let item of cartItems) {
+        const formData = new FormData();
+        formData.append("cart_id", item.cart_id);
+        await axios.post(DELETE_API, formData, authHeader);
+      }
+      toast.success("Cart cleared");
+      await fetchCart();
     } catch (err) {
       console.error(err);
       toast.error("Failed to clear cart");
     }
   };
 
-  // ---------------------------
-  // Total Items
-  // ---------------------------
-  const totalItems = cartItems.reduce(
-    (total, item) => total + Number(item.quantity || 0),
-    0
-  );
+  // =========================
+  // TOTALS FROM API
+  // =========================
+  const totalItems = cartSummary?.total_items || 0;
+  const subtotal = cartSummary?.subtotal || 0;
+  const grandTotal = cartSummary?.grand_total || 0;
 
-  // ---------------------------
-  // Apply Coupon
-  // ---------------------------
-const applyCoupon = async () => {
-  if (!couponCode) return toast.error("Enter a coupon code");
+  // =========================
+  // APPLY COUPON
+  // =========================
+  const applyCoupon = async () => {
+    if (!couponCode) return toast.error("Enter coupon code");
 
-  try {
-    const res = await axios.get(DISCOUNT_API);
+    try {
+      const res = await axios.get(DISCOUNT_API);
+      const products = res.data.data || [];
 
-    const productsWithCoupons = Array.isArray(res.data.data) ? res.data.data : [];
-
-    // نجمع كل الكوبونات من المنتجات
-    let matchedCoupon = null;
-
-    productsWithCoupons.forEach((product) => {
-      product.coupons.forEach((c) => {
-        if (c.code.toLowerCase() === couponCode.toLowerCase()) {
-          matchedCoupon = c; // يحفظ أول كوبون مطابق
-        }
+      let matchedCoupon = null;
+      products.forEach((p) => {
+        p.coupons.forEach((c) => {
+          if (c.code.toLowerCase() === couponCode.toLowerCase()) matchedCoupon = c;
+        });
       });
-    });
 
-    if (!matchedCoupon) {
-      toast.error("Invalid coupon code");
-      setDiscount(0);
-      return;
+      if (!matchedCoupon) {
+        toast.error("Invalid coupon");
+        setDiscount(0);
+        return;
+      }
+
+      let discountAmount = matchedCoupon.type === "percent" ? (subtotal * matchedCoupon.value) / 100 : matchedCoupon.value;
+      setDiscount(discountAmount);
+      toast.success(`Saved ${discountAmount.toFixed(2)} EGP 🎉`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to apply coupon");
     }
-
-    // احسب الخصم حسب النسبة
-    let subtotal = cartItems.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-
-    let discountAmount = 0;
-
-    if (matchedCoupon.type === "percent") {
-      discountAmount = (subtotal * matchedCoupon.value) / 100;
-    } else if (matchedCoupon.type === "fixed") {
-      discountAmount = matchedCoupon.value;
-    }
-
-    setDiscount(discountAmount);
-
-    toast.success(
-      `Coupon applied! You saved ${discountAmount.toFixed(2)} EG`
-    );
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to apply coupon");
-    setDiscount(0);
-  }
-};
-
+  };
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
+        cartSummary,
         loadingId,
         addToCart,
         removeFromCart,
@@ -255,11 +205,13 @@ const applyCoupon = async () => {
         decreaseQuantity,
         clearCart,
         totalItems,
-        fetchCart,
+        subtotal,
+        grandTotal,
         couponCode,
         setCouponCode,
         discount,
         applyCoupon,
+        fetchCart,
       }}
     >
       {children}

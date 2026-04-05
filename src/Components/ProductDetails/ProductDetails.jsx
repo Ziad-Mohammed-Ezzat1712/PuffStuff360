@@ -89,49 +89,47 @@ export default function ProductDetails() {
   };
 
   // ================= Add To Cart =================
-  const handleAddToCart = () => {
+const handleAddToCart = () => {
+  setLoadingId(product.data.product_id);
 
-    setLoadingId(product.data.product_id);
+  // 🔥 لازم يكون فيه variant
+  if (!selectedFlavor) {
+    toast.error("Please select flavor");
+    setLoadingId(null);
+    return;
+  }
 
-    const cartProduct = {
+  const cartProduct = {
+    product: {
+      product_id: product.data.product_id,
+      name_en: product.data.name_en,
+      image: product.data.image,
+    },
 
-      ...product,
+    variant: {
+      variant_id: selectedFlavor.variant_id,
+      image: selectedFlavor.images?.[0],
+      price: selectedFlavor.price,
 
-      id: product.data.product_id,
+      variant_info: {
+        flavor: selectedFlavor.flavor_en,
+        nicotine: selectedFlavor.nicotine_en,
+        size: selectedFlavor.size_en,
+        style: selectedFlavor.style_en,
+      },
+    },
 
-      quantity,
-
-      selectedFlavor: selectedFlavor
-        ? {
-            variant_id: selectedFlavor.variant_id,
-            flavor: selectedFlavor.flavor_en,
-            image: selectedFlavor.images?.[0],
-            price: selectedFlavor.price,
-            nicotine: selectedFlavor.nicotine_en,
-            size: selectedFlavor.size_en,
-            style: selectedFlavor.style_en,
-          }
-        : null,
-
-      selectedColor: selectedColor
-        ? {
-            color_id: selectedColor.color_id,
-            color_en: selectedColor.color_en,
-            image: selectedColor.images?.[0],
-          }
-        : null,
-    };
-
-    setTimeout(() => {
-
-      addToCart(cartProduct);
-
-      setLoadingId(null);
-
-      toast.success("Added to cart 🛒");
-
-    }, 600);
+    quantity: quantity,
   };
+
+  console.log("🛒 sending to cart:", cartProduct); // 🔥 مهم
+
+  setTimeout(() => {
+    addToCart(cartProduct);
+    setLoadingId(null);
+    toast.success("Added to cart 🛒"+selectedFlavor.flavor_en );
+  }, 600);
+};
 
   // ================= Loading =================
   if (loading) {
