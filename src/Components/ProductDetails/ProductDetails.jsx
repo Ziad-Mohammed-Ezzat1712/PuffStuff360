@@ -7,7 +7,7 @@ import { Heart } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-hot-toast";
-
+import { useWishlist } from "../../Context/WishlistContext.jsx"; // ✅ استدعاء الكونتكست
 import vo from "../../assets/Images/vo.png";
 import i from "../../assets/Images/in.png";
 
@@ -15,6 +15,7 @@ export default function ProductDetails() {
 
   const { id } = useParams();
   const { addToCart } = useCart();
+const { wishlist, addToWishlist, removeFromWishlist, isInWishlist } = useWishlist(); // ✅
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,10 +93,12 @@ export default function ProductDetails() {
 const handleAddToCart = () => {
   setLoadingId(product.data.product_id);
 
-  // 🔥 لازم يكون فيه variant
-  if (!selectedFlavor) {
-    toast.error("Please select flavor");
-    setLoadingId(null);
+  // 🔥 تحديد النوع
+  const isFlavor = !!selectedFlavor;
+  const selectedVariant = isFlavor ? selectedFlavor : selectedColor;
+
+  if (!selectedVariant) {
+    toast.error("Please select an option");
     return;
   }
 
@@ -107,30 +110,58 @@ const handleAddToCart = () => {
     },
 
     variant: {
-      variant_id: selectedFlavor.variant_id,
-      image: selectedFlavor.images?.[0],
-      price: selectedFlavor.price,
+      variant_id: selectedVariant.variant_id,
+      image: selectedVariant.images?.[0],
+      price: selectedVariant.price,
 
-      variant_info: {
-        flavor: selectedFlavor.flavor_en,
-        nicotine: selectedFlavor.nicotine_en,
-        size: selectedFlavor.size_en,
-        style: selectedFlavor.style_en,
-      },
+      variant_info: isFlavor
+        ? {
+            flavor: selectedVariant.flavor_en,
+            nicotine: selectedVariant.nicotine_en,
+            size: selectedVariant.size_en,
+            style: selectedVariant.style_en,
+            number_of_puffs: selectedVariant.number_of_puffs,
+          }
+        : {
+            color: selectedVariant.color_en,
+          },
     },
 
     quantity: quantity,
   };
+  
 
-  console.log("🛒 sending to cart:", cartProduct); // 🔥 مهم
+  console.log("🛒 sending to cart:", cartProduct);
 
   setTimeout(() => {
     addToCart(cartProduct);
     setLoadingId(null);
-    toast.success("Added to cart 🛒"+selectedFlavor.flavor_en );
+    toast.success(
+      isFlavor
+        ? "Added to cart 🛒 " + selectedVariant.flavor_en
+        : "Added to cart 🛒 " + selectedVariant.color_en
+    );
   }, 600);
 };
 
+ // ================= Wishlist Toggle =================
+  const handleWishlist = () => {
+    const selectedVariantId = selectedFlavor?.variant_id || selectedColor?.variant_id;
+    if (!selectedVariantId) {
+      toast.error("Please select an option first");
+      return;
+    }
+
+    if (isInWishlist(selectedVariantId)) {
+      const item = wishlist.find((i) => i.variant_id === selectedVariantId);
+      removeFromWishlist(item.wishlist_id);
+    } else {
+      addToWishlist({
+        product_id: product.data.product_id,
+        variant_id: selectedVariantId,
+      });
+    }
+  };
   // ================= Loading =================
   if (loading) {
 
@@ -377,9 +408,20 @@ const handleAddToCart = () => {
               />
             </button>
 
-            <button className="w-10 h-10 border rounded-lg flex items-center justify-center">
+           {/* ✅ Wishlist Button */}
+            <button
+              onClick={handleWishlist}
+              className={`w-10 h-10 border rounded-lg flex items-center justify-center ${
+                isInWishlist(selectedFlavor?.variant_id || selectedColor?.variant_id)
+                  ? "bg-red-600 text-white"
+                  : ""
+              }`}
+            >
               <Heart size={20} />
             </button>
+
+
+
 
           </div>
 

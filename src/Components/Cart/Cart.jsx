@@ -3,7 +3,7 @@ import { useCart } from "../../Context/CartContext1.jsx";
 import Shape from "../shape/shape.jsx";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
-
+import { MdDelete } from "react-icons/md";
 export default function Cart() {
   const {
     cartItems,
@@ -69,21 +69,21 @@ export default function Cart() {
                   <h3 className="text-xl font-semibold text-black">
                     {item.product?.name_en}
                   </h3>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-black mt-1">
                     Nic:{" "}
-                    <span className="font-medium">
+                    <span className="font-medium text-black">
                       {item.variant?.variant_info?.nicotine || "-"}
                     </span>
                   </p>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-black mt-1">
                     Size:{" "}
-                    <span className="font-medium">
+                    <span className="font-medium text-black">
                       {item.variant?.variant_info?.size || "-"}
                     </span>
                   </p>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-black mt-1">
                     Flavor:{" "}
-                    <span className="font-medium">
+                    <span className="font-medium text-black">
                       {item.variant?.variant_info?.flavor || "-"}
                     </span>
                   </p>
@@ -101,7 +101,7 @@ export default function Cart() {
                     >
                       -
                     </button>
-                    <span className="text-lg font-medium">{item.quantity}</span>
+                    <span className="text-lg font-medium text-black">{item.quantity}</span>
                     <button
                       onClick={() => increaseQuantity(item)}
                       className="px-3 py-1 text-lg font-bold text-black rounded-full border border-gray-400"
@@ -112,9 +112,9 @@ export default function Cart() {
 
                   <button
                     onClick={() => removeFromCart(item)}
-                    className="text-red-600 hover:text-white hover:bg-red-700 px-3 py-2 rounded-lg border border-red-600 transition"
+                    className="text-red-600 text- hover:text-white hover:bg-red-700 px-3 py-2 rounded-lg border border-red-600 transition"
                   >
-                    🗑
+<MdDelete  size={24}/>
                   </button>
                 </div>
               </div>

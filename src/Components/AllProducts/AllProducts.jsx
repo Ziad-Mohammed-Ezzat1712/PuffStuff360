@@ -3,201 +3,255 @@ import axios from "axios";
 import { useCart } from "../../Context/CartContext1.jsx";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Heart } from "lucide-react";
-import { useLanguage } from "../../Context/LanguageContext";
+  import { useLanguage } from "../../Context/LanguageContext";
 
 export default function AllProducts() {
   const { addToCart } = useCart();
   const { isArabic } = useLanguage();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingId, setLoadingId] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // ================= FETCH PRODUCTS =================
+  // ✅ Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 18;
+
+  // ======= الفلاتر =======
+  const filters = [
+    { label: "ALL", type: "all", value: "" },
+    { label: "LIQUID", type: "category", value: "liquid" },
+    { label: "SALT", type: "category", value: "salt" },
+    { label: "DISPOSABLE", type: "category", value: "disposable" },
+    { label: "PODS", type: "sub", value: "Pod" },
+    { label: "MOD", type: "sub", value: "mod" },
+    { label: "TANK", type: "sub", value: "TANK" },
+    { label: "COILS & CARTRIDGE", type: "sub", value: "Coils & Cartridges" },
+    { label: "FULL KITS", type: "sub", value: "FULL_KIT" },
+    { label: "ACCESSORIES", type: "category", value: "accessories" },
+  ];
+
+  // ================= FETCH =================
   useEffect(() => {
     axios
-      .get(`https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`)
+      .get(
+        `https://dashboard.splash-e-liquid.com/products/getallproducts.php?nocache=${Date.now()}`
+      )
       .then((res) => {
-        console.log("API RESPONSE:", res.data);
-
         if (res.data.status && Array.isArray(res.data.data)) {
           const formatted = res.data.data.map((item) => {
-            
             const product = item.data || {};
- const variant =
+            const variant =
               item.device?.[0] ||
               item.disposable?.[0] ||
               item.liquid?.[0] ||
               item.salt?.[0] ||
               item.accessories?.[0] ||
               {};
-//  isDevice = item.data?.category_en === "device";
-//  isLiquid = item.data?.category_en === "liquid";
-           
+
             return {
               id: product.product_id || Math.random(),
-              name: product.product_name_en || "No Name",
-              desc: product.description_en
+
+              // ✅ multilingual
+              name_en: product.product_name_en || "No Name",
+              name_ar: product.product_name_ar || "بدون اسم",
+
+              desc_en: product.description_en
                 ? product.description_en.replace(/"/g, "").slice(0, 80)
-                : "",
+                : "No Description",
+              desc_ar: product.description_ar
+                ? product.description_ar.replace(/"/g, "").slice(0, 80)
+                : "بدون وصف",
+
+              category_en: product.category_en || "",
+              category_ar: product.category_ar || "",
+
+              sub_category_en: product.sub_category_en
+                ? product.sub_category_en.split(",")
+                : [],
+              sub_category_ar: product.sub_category_ar
+                ? product.sub_category_ar.split(",")
+                : [],
+
               price: variant.price || 0,
               rating: 4.6,
               image: product.image || "",
-              category: product.category_en || "",
-              stock: variant.stock || 0,
-              flavorCount:
-                item.liquid?.length ||
-                item.salt?.length ||
-                item.disposable?.length ||
-                0,
-              colorCount: item.device?.length || 0,
             };
           });
-
-          console.log("FORMATTED PRODUCTS:", formatted);
 
           setProducts(formatted);
         }
       })
-      .catch((err) => {
-        console.error("API ERROR:", err);
-      })
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, []);
 
-  // ================= ADD TO CART =================
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
+  // ================= FILTER =================
+  const filteredProducts = products.filter((p) => {
+    const name = isArabic ? p.name_ar : p.name_en;
+    const category = isArabic ? p.category_ar : p.category_en;
+    const subCategory = isArabic ? p.sub_category_ar : p.sub_category_en;
 
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
+    // search
+    if (searchTerm && !name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
 
-      toast.success(`${product.name} added to cart 🛒`);
-    }, 800);
-  };
+    if (!selectedFilter) return true;
+
+    const filterObj = filters.find((f) => f.label === selectedFilter);
+    if (!filterObj) return true;
+
+    if (filterObj.type === "all") return true;
+
+    if (filterObj.type === "category") {
+      return (category || "").toLowerCase() === filterObj.value.toLowerCase();
+    } else if (filterObj.type === "sub") {
+      return (subCategory || []).some(
+        (sub) => sub.toLowerCase() === filterObj.value.toLowerCase()
+      );
+    }
+
+    return true;
+  });
+
+  // ================= Pagination =================
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedFilter, isArabic]);
 
   return (
-    <>
-      <h2 className="text-[50px] mb-24 text-white text-center">Our Products</h2>
+    <div dir={isArabic ? "rtl" : "ltr"}>
+      <h2 className="text-[50px] mb-24 text-white text-center">
+        {isArabic ? "منتجاتنا" : "Our Products"}
+      </h2>
 
-      {/* Sort */}
-      <div className="flex justify-end items-center gap-3 mb-6">
-        <h1 className="text-gray-300 font-medium">Sort by</h1>
-
-        <select className="bg-white text-gray-700 px-4 py-2 rounded-lg border">
-          <option>Select</option>
-          <option>Best Seller</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>Newest</option>
-        </select>
+      {/* Search */}
+      <div className="flex justify-end mb-6">
+        <input
+          type="text"
+          placeholder={isArabic ? "ابحث عن منتج..." : "Search product..."}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-white px-4 py-2 rounded-lg border w-64"
+        />
       </div>
 
       <div className="grid md:grid-cols-[20%_80%] gap-8">
-        {/* ================= FILTERS ================= */}
+        {/* Filters */}
         <div className="bg-white p-6 hidden md:block rounded-2xl shadow-lg h-fit sticky top-20">
-          <h3 className="text-xl font-semibold mb-4">Filters</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            {isArabic ? "الفلاتر" : "Filters"}
+          </h3>
 
-          <hr className="mb-4" />
-
-          {/* Categories */}
-          <div className="space-y-3 text-gray-700">
-            {[
-              "LIQUID",
-              "PODS",
-              "TANK",
-              "DISPOSABLE",
-              "COILS & CARTRIDGE",
-              "MOD",
-              "FULL KITS",
-              "ACCESSORIES",
-            ].map((item) => (
-              <div key={item} className="flex justify-between cursor-pointer">
-                <span>{item}</span>
-                <span>{">"}</span>
+          <div className="space-y-3 ">
+            {filters.map((item) => (
+              <div
+                key={item.label}
+                onClick={() =>
+                  setSelectedFilter(
+                    selectedFilter === item.label ? null : item.label
+                  )
+                }
+                className={`cursor-pointer px-2 py-1 rounded-lg ${
+                  selectedFilter === item.label
+                    ? "bg-[#4E0000] text-white font-bold"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                {item.label}
               </div>
             ))}
           </div>
         </div>
 
-        {/* ================= PRODUCTS ================= */}
+        {/* Products */}
         <div className="grid md:grid-cols-3 gap-8">
           {loading && (
-            <p className="text-white text-xl col-span-3 text-center">
-              Loading products...
-            </p>
-          )}
-
-          {!loading && products.length === 0 && (
-            <p className="text-white text-xl col-span-3 text-center">
-              No products found
+            <p className="text-white text-center col-span-3">
+              {isArabic ? "جاري التحميل..." : "Loading..."}
             </p>
           )}
 
           {!loading &&
-            products.map((product) => (
+            currentProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden
-                hover:shadow-2xl transition-all duration-500
-                hover:scale-105 flex flex-col"
+                className="bg-white rounded-xl shadow-md hover:scale-105 transition flex flex-col"
               >
-                {/* Image */}
                 <Link to={`/product/${product.id}`}>
-                  <div className="flex justify-center items-center h-64 bg-gray-100">
+                  <div className="h-64 flex items-center rounded-xl justify-center bg-gray-100">
                     <img
                       src={product.image}
-                      alt={product.name}
-                      className="h-52 object-contain"
+                      className="h-52 object-contain "
                     />
                   </div>
                 </Link>
 
-                {/* Content */}
-                <div className="p-4 flex flex-col flex-1 gap-3">
-                  <h3 className="text-lg font-semibold text-left">
-                    {product.name}
+                <div className="p-4 flex flex-col text-left flex-1 gap-3">
+                  <h3 className="font-semibold">
+                    {isArabic ? product.name_ar : product.name_en}
                   </h3>
 
-                  <p className="text-gray-500 text-sm line-clamp-2 text-left">
-                    {product.desc}
+                  <p className="text-sm text-gray-500">
+                    {isArabic ? product.desc_ar : product.desc_en}
                   </p>
 
-                  <div className="flex justify-between items-center ">
-                    <span className="font-bold">EGP {product.price}</span>
-                    {/* <span className="text-xs text-gray-500">
-                      {isDevice ? colorCount : ""}
-                      {isLiquid ? flavorCount : ""}
-                    </span> */}
-                    <div className="text-yellow-400 text-sm">
-                      ★★★★☆
-                      <span className="text-gray-600 text-xs ml-1">
-                        {product.rating}
-                      </span>
-                    </div>
-                  </div>
+                  <span className="font-bold">EGP {product.price}</span>
 
-                  {/* Buttons */}
-                  <div className="flex items-center gap-2 mt-auto">
-                    <Link
-                      className={`w-[95%] text-center py-2 rounded-lg text-white transition bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000] `}
-                      to={`/product/${product.id}`}
-                    >
-                      <button>
-                        {isArabic ? " تفاصيل المنتج" : "View Details"}
-                      </button>
-                    </Link>
-
-                    <button className="w-10 h-10 border rounded-lg flex items-center justify-center">
-                      <Heart size={20} />
-                    </button>
-                  </div>
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="mt-auto bg-[#4E0000] hover:border hover:border-[#4E0000] hover:text-[#4E0000] hover:bg-transparent text-white py-2 rounded-lg text-center"
+                  >
+                    {isArabic ? "تفاصيل المنتج" : "View Details"}
+                  </Link>
                 </div>
               </div>
             ))}
         </div>
       </div>
-    </>
+
+      {/* Pagination */}
+      {filteredProducts.length > productsPerPage && (
+        <div className="flex justify-center gap-4 mt-10">
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.max(prev - 1, 1))
+            }
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-300 rounded"
+          >
+            {isArabic ? "السابق" : "Prev"}
+          </button>
+
+          <span className="text-white py-2">
+            {isArabic ? `صفحة ${currentPage}` : `Page ${currentPage}`}
+          </span>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) =>
+                indexOfLastProduct < filteredProducts.length
+                  ? prev + 1
+                  : prev
+              )
+            }
+            disabled={indexOfLastProduct >= filteredProducts.length}
+            className="px-4 py-2 bg-[#4E0000] text-white rounded"
+          >
+            {isArabic ? "التالي" : "Next"}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

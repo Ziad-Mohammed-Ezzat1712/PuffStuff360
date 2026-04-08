@@ -137,9 +137,7 @@ export default function Section2() {
                     {isArabic ? " تفاصيل المنتج" : "View Details"}
                   </button></Link>
 
-                  <button className="w-10 h-10 border rounded-lg flex items-center justify-center">
-                    <Heart size={20} />
-                  </button>
+                 
                 </div>
               </div>
             </div>

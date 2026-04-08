@@ -484,34 +484,15 @@ export default function Section4() {
                 </div>
 
                 {/* BUTTONS */}
-                <div className="flex items-center gap-2 mt-auto">
-
-                  <button className="w-[45%] border border-[#A59F9F] py-2 rounded-lg hover:bg-[#4E0000] hover:text-white transition">
-                    {isArabic ? "اشتري الآن" : "Buy Now"}
-                  </button>
-
+               <div className="flex items-center gap-2 mt-auto">
+             
+                 <Link className={`w-[95%] text-center py-2 rounded-lg text-white transition bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000] `} to={`/product/${product.id}`}>
                   <button
-                    onClick={() => handleAddToCart(product)}
-                    disabled={loadingId === product.id}
-                    className={`w-[45%] py-2 rounded-lg text-white transition ${
-                      loadingId === product.id
-                        ? "bg-gray-400"
-                        : "bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000]"
-                    }`}
-                  >
-                    {loadingId === product.id
-                      ? isArabic
-                        ? "جاري الإضافة..."
-                        : "Adding..."
-                      : isArabic
-                      ? "أضف للسلة"
-                      : "Add to Cart"}
-                  </button>
+                    >
+                    {isArabic ? " تفاصيل المنتج" : "View Details"}
+                  </button></Link>
 
-                  <button className="w-10 h-10 border rounded-lg flex items-center justify-center">
-                    <Heart size={20} />
-                  </button>
-
+                 
                 </div>
               </div>
             </div>

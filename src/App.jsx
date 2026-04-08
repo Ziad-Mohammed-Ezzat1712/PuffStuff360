@@ -40,8 +40,8 @@ import AboutUs from "./Components/AboutUs/AboutUs";
 import AllProducts from "./Components/AllProducts/AllProducts";
 import BrandContextProvider from "./Context/BrandContext";
 import { LanguageProvider } from "./Context/LanguageContext";
-// import WishList from "./Components/WishList/WishList";
-// import { WishlistProvider } from "./Context/WishlistContext";
+import WishList from "./Components/WishList/WishList";
+import WishlistProvider from "./Context/WishlistContext";
 
 // eslint-disable-next-line no-unused-vars
 let x = createBrowserRouter([
@@ -51,7 +51,7 @@ let x = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "cart", element: <Cart /> },
-      // {path:"wishlist",element:<WishList/>},
+      {path:"wishlist",element:<WishList/>},
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "*", element: <NotFound /> },
@@ -94,7 +94,7 @@ let x = createBrowserRouter([
 function App() {
   return (
     <>
-      {/* <WishlistProvider> */}
+      <WishlistProvider>
       <ToastContainer />
       <LanguageProvider>
         <BrandContextProvider>
@@ -104,7 +104,7 @@ function App() {
           </CartProvider>
         </BrandContextProvider>
       </LanguageProvider>
-      {/* </WishlistProvider> */}
+      </WishlistProvider>
     </>
   );
 }

@@ -86,21 +86,21 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
           <div className="hidden md:flex w-full md:w-auto justify-center md:justify-end">
             <ul className="flex gap-4 items-center">
 
-              {/* Cart Icon */}
-              <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="cart">
-                <ShoppingCart size={24} color="#000" />
-                <div className="absolute top-[-13px] right-[-15px] flex items-center justify-center size-5 rounded-full bg-red-600 text-white text-xs font-bold">
-                  {totalItems}
-                </div>
-              </NavLink>
-
-              {/* Heart Icon */}
-              <NavLink className="text-white relative py-2 px-2 bg-white rounded-full hover:text-white" to="cart">
-                <Heart size={24} color="#000" />
-                <div className="absolute top-[-13px] right-[-15px] flex items-center justify-center size-5 rounded-full bg-red-600 text-white text-xs font-bold">
-                  {totalItems}
-                </div>
-              </NavLink>
+                      {/* Cart */}
+                            <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/cart">
+                              <ShoppingCart size={24} color="#000" />
+                              <div className="absolute -top-3 -right-3 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
+                                {totalItems}
+                              </div>
+                            </NavLink>
+              
+                            {/* Wishlist */}
+                            <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/wishlist">
+                              <Heart size={24} color="#000" />
+                              {/* <div className="absolute -top-3 -right-3 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
+                                {totalItems}
+                              </div> */}
+                            </NavLink>
 
               {/* User Menu */}
               <div className="relative">

@@ -94,9 +94,9 @@ export default function Navbar() {
               {/* Wishlist */}
               <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/wishlist">
                 <Heart size={24} color="#000" />
-                <div className="absolute -top-3 -right-3 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
+                {/* <div className="absolute -top-3 -right-3 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
                   {totalItems}
-                </div>
+                </div> */}
               </NavLink>
       {/* Language */}
               {/* <button

@@ -6,7 +6,7 @@ const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 // APIs
-const GET_API = `https://dashboard.splash-e-liquid.com/cart/getCart.php`;
+const GET_API = `https://dashboard.splash-e-liquid.com/cart/getCart.php?nocache=${Date.now()}`;
 const ADD_API = `https://dashboard.splash-e-liquid.com/cart/add.php`;
 const UPDATE_API = `https://dashboard.splash-e-liquid.com/cart/updateCart.php`;
 const DELETE_API = `https://dashboard.splash-e-liquid.com/cart/deleteFromCart.php`;
