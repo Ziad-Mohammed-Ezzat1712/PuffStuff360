@@ -120,6 +120,7 @@ const handleAddToCart = () => {
             nicotine: selectedVariant.nicotine_en,
             size: selectedVariant.size_en,
             style: selectedVariant.style_en,
+            color:selectedVariant.color_en,
             number_of_puffs: selectedVariant.number_of_puffs,
           }
         : {

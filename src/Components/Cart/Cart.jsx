@@ -59,34 +59,62 @@ export default function Cart() {
               >
                 {/* Image */}
                 <img
-                  src={item.variant.image}
+                  src={item.variant.image || item.product.image}
                   alt={item.product?.name_en}
-                  className="w-full sm:w-40 h-60 object-cover rounded-lg bg-gray-100 p-2 mx-auto sm:mx-0"
+                  className="w-full sm:w-40 h-60 md:h-auto object-contain rounded-lg bg-gray-100 p-2 mx-auto sm:mx-0"
                 />
 
                 {/* Product Info */}
-                <div className="flex-1 text-center sm:text-left">
+                <div className="flex-1  text-center sm:text-left">
                   <h3 className="text-xl font-semibold text-black">
                     {item.product?.name_en}
                   </h3>
-                  <p className="text-black mt-1">
-                    Nic:{" "}
-                    <span className="font-medium text-black">
-                      {item.variant?.variant_info?.nicotine || "-"}
-                    </span>
-                  </p>
-                  <p className="text-black mt-1">
-                    Size:{" "}
-                    <span className="font-medium text-black">
-                      {item.variant?.variant_info?.size || "-"}
-                    </span>
-                  </p>
-                  <p className="text-black mt-1">
-                    Flavor:{" "}
-                    <span className="font-medium text-black">
-                      {item.variant?.variant_info?.flavor || "-"}
-                    </span>
-                  </p>
+               {(() => {
+  const category = item.product?.category?.name_en?.toLowerCase();
+
+  // liquids / salt / disposable
+  if (["liquid", "salt", "disposable"].includes(category)) {
+    return (
+      <>
+        <p className="text-black mt-1">
+          Nic:{" "}
+          <span className="font-medium">
+            {item.variant?.variant_info?.nicotine || "-"}
+          </span>
+        </p>
+
+        <p className="text-black mt-1">
+          Size:{" "}
+          <span className="font-medium">
+            {item.variant?.variant_info?.size || "-"}
+          </span>
+        </p>
+
+        <p className="text-black mt-1">
+          Flavor:{" "}
+          <span className="font-medium">
+            {item.variant?.variant_info?.flavor || "-"}
+          </span>
+        </p>
+      </>
+    );
+  }
+
+  // devices
+  if (category === "device") {
+    return (
+      <p className="text-black mt-1">
+        Color:{" "}
+        <span className="font-medium">
+          {item.variant?.variant_info?.color_en || "-"}
+        </span>
+      </p>
+    );
+  }
+
+  // accessories → مفيش حاجة
+  return null;
+})()}
                   <p className="text-black font-medium mt-2 text-lg">
                     {item.line_total} EG
                   </p>
