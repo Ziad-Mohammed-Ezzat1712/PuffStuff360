@@ -1,145 +1,239 @@
-import React, { useState } from "react";
-import { useCart } from "../../Context/CartContext1.jsx";import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useCart } from "../../Context/CartContext1.jsx";
 import Shape from "../shape/shape.jsx";
 
-import { FiPhoneCall } from 'react-icons/fi';  
+import { FiPhoneCall } from "react-icons/fi";
 import { FaEnvelope, FaUserAlt, FaCity, FaMapMarkerAlt } from "react-icons/fa";
-  
+
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ShippingPage() {
+  const { cartSummary, discount, cartItems } = useCart();
 
+  const subtotal = cartSummary?.subtotal || 0;
+  const total = subtotal - discount;
+
+  // ✅ states
+  const [regions, setRegions] = useState([]);
+  const [receiptImage, setReceiptImage] = useState(null);
+
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    shipping_country: "",
+    shipping_city: "",
+    shipping_address: "",
+    shipping_region: "",
+    shipping_notes: "",
+  });
+
+  const token = localStorage.getItem("userToken");
+
+  // ✅ get regions
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const res = await axios.get(
+          "https://dashboard.splash-e-liquid.com/shipping/getAllShapping.php"
+        );
+
+        if (res.data.status) {
+          setRegions(res.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchRegions();
+  }, []);
+
+  // ✅ handle input
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ✅ checkout with toast 🔥
+  const handleCheckout = async () => {
+    const loadingToast = toast.loading("Processing your order...");
+
+    try {
+      const form = new FormData();
+
+      // shipping data
+      Object.keys(formData).forEach((key) => {
+        form.append(key, formData[key]);
+      });
+
+      // payment
+      form.append("payment_method", "instapay");
+      form.append("wallet_phone", formData.phone);
+      form.append("transaction_no", formData.phone);
+
+      // products
+      if (cartItems) {
+        form.append("products", JSON.stringify(cartItems));
+      }
+
+      // image
+      if (receiptImage) {
+        form.append("receipt_image", receiptImage);
+      }
+
+      const res = await axios.post(
+        "https://dashboard.splash-e-liquid.com/orders/checkOut.php",
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      toast.dismiss(loadingToast);
+
+      if (res.data.status) {
+        toast.success(res.data.message || "Order placed successfully ✅");
+      } else {
+        toast.error(res.data.message || "Something went wrong ❌");
+      }
+
+    } catch (err) {
+      toast.dismiss(loadingToast);
+      toast.error("Checkout failed ❌");
+      console.log(err.response?.data || err);
+    }
+  };
 
   return (
-    <div className=" text-white min-h-screen px-6 py-10 container mx-auto">
-      <h2 className="text-3xl font-bold mb-10 text-[#ffffff] text-center">
+    <div className="text-white min-h-screen px-6 py-10 container mx-auto">
+      <h2 className="text-3xl font-bold mb-10 text-center">
         Your Shopping Cart
       </h2>
-<Shape/>
 
-     <div className="grid md:grid-cols-3 gap-8">
-          {/* Products List */}
-          
-          <div className="md:col-span-2 space-y-6 bg-white rounded-xl p-6">
-            
-     <h1 className="text-black text-[25px] font-semibold">Shipping and contact information</h1>
-       <div className="flex-1 space-y-4 sm:space-y-6 w-full">
-          <h2 className="text-2xl sm:text-3xl lg:text-[40px] text-left font-bold">
-            Billing Address
-          </h2>
+      <Shape />
 
-        
-            <label className=" flex gap-2 text-black text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-          <FaUserAlt className="mt-1 text-[#6A7282]" size={18} aria-hidden="true" /> Full Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter Full Name"
-            className="border p-3  w-full h-[50px] sm:h-[60px] lg:h-[80px] rounded-xl bg-[#F3F3F5]"
-          />
+      <div className="grid md:grid-cols-3 gap-8">
+        {/* Left */}
+        <div className="md:col-span-2 space-y-6 bg-white rounded-xl p-6">
+          <h1 className="text-black text-[25px] font-semibold">
+            Shipping and contact information
+          </h1>
 
-      
+          <div className="space-y-4 w-full">
 
+            {/* Full Name */}
+            <label className="flex gap-2 text-black">
+              <FaUserAlt /> Full Name
+            </label>
+            <input name="full_name" onChange={handleChange} className="border p-3 w-full h-[60px] rounded-xl bg-[#F3F3F5]" />
 
-          <label className="flex gap-2 text-black text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-          <FaEnvelope className=" mt-1 text-[#6A7282]" size={18} aria-hidden="true" />   E-mail
-          </label>
-          <input
-            type="email"
-            placeholder="example@email.com"
-            className="border p-3 rounded-xl  w-full h-[50px] sm:h-[60px] lg:h-[80px]  bg-[#F3F3F5]"
-          />
-  <label className="flex gap-2 text-black   text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-          <FiPhoneCall className=" mt-1 text-[#6A7282]" size={18} aria-hidden="true" /> Phone 
-          </label>
-          <input
-            type="text"
-            name="phone"
-           
-            placeholder="01012345678"
-            className="border p-3  w-full h-[50px] sm:h-[60px] lg:h-[80px] rounded-xl bg-[#F3F3F5]"
-          />
+            {/* Email */}
+            <label className="flex gap-2 text-black">
+              <FaEnvelope /> Email
+            </label>
+            <input name="email" onChange={handleChange} className="border p-3 w-full h-[60px] rounded-xl bg-[#F3F3F5]" />
 
-           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-2">
-            <div className=" flex flex-col"> <label className="flex gap-2 text-black text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-          <FaCity className=" mt-1 text-[#6A7282]" size={18} aria-hidden="true" /> City
-          </label>
-            <input
-              type="text"
-              placeholder="Cairo"
-              className="border p-3 h-[50px] sm:h-[60px] lg:h-[80px] rounded-xl bg-[#F3F3F5] "
-            /></div>
-             <div className=" flex flex-col"> <label className="flex gap-2 text-black text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-        <FaMapMarkerAlt className=" mt-1 text-[#6A7282]" size={18} aria-hidden="true" />   Country
-          </label>
-            <input
-              type="text"
-              placeholder="Egypt"
-              className="border p-3 h-[50px] sm:h-[60px] lg:h-[80px] rounded-xl bg-[#F3F3F5] "
-            /></div></div>
-    
-          <label className="flex gap-2 text-black  text-left text-lg sm:text-xl lg:text-[25px] mb-1">
-          <FaMapMarkerAlt className=" mt-1 text-[#6A7282]" size={18} aria-hidden="true" />  The address in detail
-          </label>
-          <textarea placeholder="الشارع، رقم البناية، الدور، ومعالم قريبة..." className="border p-3 rounded-xl bg-[#F3F3F5] w-full h-32 sm:h-40 lg:h-48"></textarea>
-        </div>
-        <Link to="/paymentpage" className="text-white hover:text-white" >
-        <button className="bg-[#790000] hover:bg-[#850101] w-full py-4 rounded-2xl">Continue to pay</button>
-        </Link>
-          </div>
+            {/* Phone */}
+            <label className="flex gap-2 text-black">
+              <FiPhoneCall /> Phone
+            </label>
+            <input name="phone" onChange={handleChange} className="border p-3 w-full h-[60px] rounded-xl bg-[#F3F3F5]" />
 
-          {/* Cart Summary */}
-          <div  className="bg-[#ffffff] p-6 rounded-2xl shadow-lg h-fit sticky top-20">
-            <h3 className="text-2xl text-left text-black font-medium  pb-3 mb-4">
-              Order Summary
-            </h3>
-            <div className="flex justify-between text-[#6D6D6D] text-lg mb-3 gap-2">
-             <div className="relative w-full max-w-sm">
-  <span className="absolute inset-y-4 left-4 bottom-3 flex items-center text-gray-400">
-    <i className="fa-solid fa-tag"></i>
-  </span>
-  <input
-    type="text"
-    placeholder="Coupon code"
-    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#790000]"
-  />
-</div>
+            {/* City + Country */}
+            <div className="grid grid-cols-2 gap-3">
+              <input name="shipping_city" placeholder="City" onChange={handleChange} className="border p-3 h-[60px] rounded-xl bg-[#F3F3F5]" />
+              <input name="shipping_country" placeholder="Country" onChange={handleChange} className="border p-3 h-[60px] rounded-xl bg-[#F3F3F5]" />
+            </div>
 
-             <button
-             
-              className=" bg-[#790000] hover:bg-red-700 text-white font-normal py-2 px-8 rounded-xl transition"
+            {/* Region */}
+            <select
+              name="shipping_region"
+              onChange={handleChange}
+              className="border p-3 w-full h-[60px] rounded-xl bg-[#F3F3F5]"
             >
-             Apply
-            </button>
-            </div>
-            <div className="flex justify-between text-[#6D6D6D] text-lg mb-3">
-              <span>Subtotal</span>
-              <span className="text-[#000000] font-semibold">
-               EG
-              </span>
-            </div>
-             <div className="flex justify-between text-[#6D6D6D] text-lg mb-3">
-              <span>Discount (10%)</span>
-              <span className="text-[#790000] font-semibold">
-                 EG
-              </span>
-            </div>
-             <div className="flex justify-between border-b-2 pb-3 text-[#6D6D6D] text-lg mb-3">
-              <span>Delivery</span>
-              <span className="text-black font-semibold">
-               EG
-              </span>
-            </div>
-           
-            <div className="flex justify-between text-[#000000] text-xl font-medium ">
-              <span>Total</span>
-              <span className="text-[#000000]">
-  EG  
-              </span>
-            </div>
+              <option value="">Select Region</option>
+              {regions.map((region) => (
+                <option key={region.id} value={region.region_en}>
+                  {region.region_en}
+                </option>
+              ))}
+            </select>
 
+            {/* Address */}
+            <textarea
+              name="shipping_address"
+              placeholder="Address"
+              onChange={handleChange}
+              className="border p-3 rounded-xl bg-[#F3F3F5] w-full h-32"
+            />
+
+            {/* Notes */}
+            <textarea
+              name="shipping_notes"
+              placeholder="Notes"
+              onChange={handleChange}
+              className="border p-3 rounded-xl bg-[#F3F3F5] w-full h-24"
+            />
+
+            {/* Upload Image */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setReceiptImage(e.target.files[0])}
+              className="border p-3 w-full rounded-xl bg-[#F3F3F5]"
+            />
+
+            {/* Preview */}
+            {receiptImage && (
+              <img
+                src={URL.createObjectURL(receiptImage)}
+                alt="preview"
+                className="w-32 rounded-lg"
+              />
+            )}
+          </div>
+
+          {/* Button */}
+          <button
+            onClick={handleCheckout}
+            className="bg-[#790000] hover:bg-[#850101] w-full py-4 rounded-2xl"
+          >
+            Continue to pay
+          </button>
+        </div>
+
+        {/* Summary */}
+        <div className="bg-white p-6 rounded-2xl shadow-lg h-fit sticky top-20">
+          <h3 className="text-2xl text-black mb-4">Order Summary</h3>
+
+          <div className="flex justify-between mb-3">
+            <span>Subtotal</span>
+            <span>{subtotal} EG</span>
+          </div>
+
+          <div className="flex justify-between mb-3">
+            <span>Discount</span>
+            <span className="text-[#790000]">{discount} EG</span>
+          </div>
+
+          <div className="flex justify-between border-b pb-3 mb-3">
+            <span>Delivery</span>
+            <span>0 EG</span>
+          </div>
+
+          <div className="flex justify-between font-bold text-xl">
+            <span>Total</span>
+            <span>{total} EG</span>
           </div>
         </div>
+      </div>
     </div>
   );
 }
-  
