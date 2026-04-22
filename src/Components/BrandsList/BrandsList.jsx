@@ -20,11 +20,11 @@ getAllBrands()
   
   return (
     <>
-    <h1 className=' text-white text-6xl font-medium'>Our Brands</h1>
-    <div className="row">
-    { Brands.length >0 ?  Brands.map((product)=> <div key={product.id} className='w-1/6 '>
+    <h1 className=' text-white md:text-6xl text-4xl font-medium'>Our Brands</h1>
+    <div className=" grid grid-cols-2 md:grid-cols-6 mt-6">
+    { Brands.length >0 ?  Brands.map((product)=> <div key={product.id} className='  '>
     <div  className="product p-2 my-2 text-start">
-     <img src={product.image} className='w-full h-60 object-cover rounded-lg' alt="brand's image" />
+     <img src={product.image} className='w-full h-60 md:object-cover object-contain rounded-lg' alt="brand's image" />
      
    </div>
     </div>) :<> <div className="sk-circle">

@@ -189,7 +189,7 @@ const handleAddToCart = () => {
       {/* ================= IMAGE ================= */}
       <div className="flex-1 flex justify-center">
 
-        <div className="bg-white rounded-2xl h-dvh p-10 w-full max-w-md shadow-lg">
+        <div className="bg-white rounded-2xl md:h-dvh p-10 w-full max-w-md shadow-lg">
 
           <img
             src={
@@ -208,7 +208,7 @@ const handleAddToCart = () => {
       {/* ================= DETAILS ================= */}
       <div className="flex-1 flex flex-col space-y-6 text-left">
 
-        <h2 className="text-3xl font-bold">
+        <h2 className="md:text-3xl text-2xl font-bold">
           {product.data.product_name_en}
         </h2>
 
@@ -257,30 +257,7 @@ const handleAddToCart = () => {
 
 {/* num-puffs */}
 
-  {(product.disposable?.length > 0) && (
-
-          <div>
-
-            <div className="flex gap-3 flex-wrap">
-
-              {(product.disposable).map((item, idx) => (
-
-               
-               <>
-               
-            <div className="flex gap-2 justify-between items-center text-center ">
-                  
-               number of puffs: <p>{item.number_of_puffs}</p>
-            </div>
-               </>
-
-              ))}
-
-            </div>
-
-          </div>
-
-        )}
+ 
         {/* ================= FLAVORS ================= */}
 
         {flavors.length > 0 && (
@@ -291,7 +268,7 @@ const handleAddToCart = () => {
               FLAVORS
             </h3>
 
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
 
               {flavors.map((flavor) => (
 
@@ -370,9 +347,9 @@ const handleAddToCart = () => {
         )}
 
         {/* ================= QUANTITY ================= */}
-        <div className="flex items-center justify-between mt-4">
+        <div className="md:flex md:items-center md:justify-between mt-4">
 
-          <div className="flex items-center border px-4 rounded-lg">
+          <div className="flex items-center border px-6 md:px-4 w-40 md:mb-0 mb-4 md:w-39 rounded-lg">
 
             <button onClick={decreaseQty} className="px-2 text-xl">
               -
@@ -390,14 +367,14 @@ const handleAddToCart = () => {
 
           <div className="flex gap-4">
 
-            <button className="border px-6 py-2 rounded-lg">
+            <button className="border px-6 py-2 rounded-lg text-[12px] md:text-[16px]">
               Buy Now
             </button>
 
             <button
               onClick={handleAddToCart}
               disabled={loadingId === product.data.product_id}
-              className="bg-[#790000] px-6 py-2 rounded-lg"
+              className="bg-[#790000] text-[12px] md:text-[16px] px-6 py-2 rounded-lg"
             >
               {loadingId === product.data.product_id
                 ? "Adding..."

@@ -148,7 +148,7 @@ export default function Cart() {
               </div>
             ))}
 
-            <Link to="/shippingpage" className="block mt-6">
+            <Link to="/paymentpage" className="block mt-6">
               <button className="w-full bg-red-800 hover:bg-red-900 text-white py-4 rounded-xl font-semibold transition">
                 Continue to pay
               </button>

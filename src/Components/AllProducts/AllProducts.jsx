@@ -131,7 +131,7 @@ export default function AllProducts() {
 
   return (
     <div dir={isArabic ? "rtl" : "ltr"}>
-      <h2 className="text-[50px] mb-24 text-white text-center">
+      <h2 className="md:text-[50px] text-[34px] mb-24 text-white text-center">
         {isArabic ? "منتجاتنا" : "Our Products"}
       </h2>
 
@@ -139,10 +139,10 @@ export default function AllProducts() {
       <div className="flex justify-end mb-6">
         <input
           type="text"
-          placeholder={isArabic ? "ابحث عن منتج..." : "Search product..."}
+          placeholder={isArabic ? "ابحث عن منتج..." : "Search..."}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="bg-white px-4 py-2 rounded-lg border w-64"
+          className="bg-white px-4 py-2 rounded-lg border md:w-64 w-44"
         />
       </div>
 
@@ -175,7 +175,7 @@ export default function AllProducts() {
         </div>
 
         {/* Products */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-8">
           {loading && (
             <p className="text-white text-center col-span-3">
               {isArabic ? "جاري التحميل..." : "Loading..."}
@@ -184,38 +184,53 @@ export default function AllProducts() {
 
           {!loading &&
             currentProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-xl shadow-md hover:scale-105 transition flex flex-col"
-              >
-                <Link to={`/product/${product.id}`}>
-                  <div className="h-64 flex items-center rounded-xl justify-center bg-gray-100">
-                    <img
-                      src={product.image}
-                      className="h-52 object-contain "
-                    />
-                  </div>
-                </Link>
-
-                <div className="p-4 flex flex-col text-left flex-1 gap-3">
-                  <h3 className="font-semibold">
-                    {isArabic ? product.name_ar : product.name_en}
-                  </h3>
-
-                  <p className="text-sm text-gray-500">
-                    {isArabic ? product.desc_ar : product.desc_en}
-                  </p>
-
-                  <span className="font-bold">EGP {product.price}</span>
-
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="mt-auto bg-[#4E0000] hover:border hover:border-[#4E0000] hover:text-[#4E0000] hover:bg-transparent text-white py-2 rounded-lg text-center"
-                  >
-                    {isArabic ? "تفاصيل المنتج" : "View Details"}
-                  </Link>
-                </div>
-              </div>
+            
+                 <div
+                             key={product.id}
+                             className="bg-white rounded-xl shadow-md overflow-hidden
+                             hover:shadow-2xl transition-all duration-500
+                             hover:scale-105 flex flex-col"
+                           >
+                             {/* IMAGE */}
+                             <Link to={`/product/${product.id}`}>
+                               <div className="flex justify-center py-2 items-center md:h-64 bg-gray-100">
+                                 <img
+                                   src={product.image}
+                                   alt={product.name}
+                                   className="md:h-48 h-28 object-contain "
+                                 />
+                               </div>
+                             </Link>
+               
+                             {/* CONTENT */}
+                             <div className="p-4 flex flex-col flex-1 text-left gap-3">
+                               <h3 className="md:text-lg text-[12px] font-semibold"> {isArabic ? product.name_ar : product.name_en}</h3>
+               
+                               <p className="text-gray-500 md:text-sm text-[12px] line-clamp-2">
+                                                  {isArabic ? product.desc_ar : product.desc_en}
+                               </p>
+               
+                               <div className="flex justify-between items-center">
+                                 <span className="font-bold md:text-[16px] text-[14px]">EGP {product.price}</span>
+               
+                                 <span className="text-xs text-gray-500">
+                                   {product.flavorCount} Flavors
+                                 </span>
+                               </div>
+               
+                               {/* BUTTONS */}
+                               <div className="flex items-center gap-2 mt-auto">
+                            
+                                <Link className={`w-[95%] text-center md:text-[16px] text-[12px] py-2 rounded-lg text-white transition bg-[#4E0000] hover:bg-transparent hover:text-[#4E0000] hover:border hover:border-[#4E0000] `} to={`/product/${product.id}`}>
+                                 <button
+                                   >
+                                   {isArabic ? " تفاصيل المنتج" : "View Details"}
+                                 </button></Link>
+               
+                                
+                               </div>
+                             </div>
+                           </div>
             ))}
         </div>
       </div>

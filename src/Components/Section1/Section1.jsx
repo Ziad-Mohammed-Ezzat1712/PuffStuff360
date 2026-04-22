@@ -124,7 +124,7 @@ export default function SplashSlider() {
       <div
         className={`absolute ${
           isArabic ? "right-5 text-right" : "left-5 text-left"
-        } md:left-10 md:text-left max-w-[90%] md:max-w-md text-white space-y-3 md:space-y-5`}
+        } md:left-10 md:text-left  bottom-0 md:top-6 max-w-[90%] md:max-w-md text-white space-y-3 md:space-y-5`}
       >
         <motion.h1
           key={bottles[index].id + "-title"}
@@ -139,7 +139,7 @@ export default function SplashSlider() {
           key={bottles[index].id + "-desc"}
           initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-[16px] md:text-[32px]"
+          className="text-[0px]  md:text-[32px]"
         >
           {bottles[index].desc[lang]}
         </motion.p>
@@ -148,7 +148,7 @@ export default function SplashSlider() {
           key={bottles[index].id + "-desc2"}
           initial={{ opacity: 0, x: isArabic ? 30 : -30 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-[13px] md:text-[16px]"
+          className="text-[0px] md:text-[16px]"
         >
           {bottles[index].desc2[lang]}
         </motion.p>

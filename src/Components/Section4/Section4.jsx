@@ -44,13 +44,13 @@ export default function Section4() {
     <div className="relative w-full bg-black overflow-hidden shadow-2xl rounded-xl">
       
       {/* الصورة والمحتوى */}
-      <div className="relative md:h-[480px] h-[110px] rounded-xl ">
+      <div className="relative md:h-[480px] h-[210px] rounded-xl ">
         
         {/* 1. الصورة العادية (تكون في الأسفل) */}
         <img 
           src={img1} 
           alt="Best Offers on Best Devices" 
-          className="absolute inset-0 w-full h-full md:object-fill object-contain opacity-80 "
+          className="absolute inset-0 w-full h-full md:object-fill object-fill opacity-80 "
         />
         
         {/* 2. الصورة المشوشة (تكون في الأعلى) */}
@@ -58,7 +58,7 @@ export default function Section4() {
           src={img2} 
           alt="Best Offers on Glitched" 
           className={`
-            absolute inset-0 w-full h-full md:object-fill object-contain 
+            absolute inset-0 w-full h-full md:object-fill object-fill 
             transition-opacity duration-500 ease-in-out // المدة التي تستغرقها عملية التلاشي
             ${isGlitched ? 'opacity-100' : 'opacity-0'} // تتحكم في شفافية الصورة المشوشة
           `}
@@ -68,15 +68,15 @@ export default function Section4() {
         
         {/* زر العرض (GET OFFER) */}
      <button
-      className="absolute top-0 right-0 h-full w-12 bg-[#FF0000] rounded-xl text-white font-bold text-[32px] transform rotate-180 z-20 hover:bg-red-700 transition-colors"
+      className="absolute top-0 right-0 h-full w-12 bg-[#FF0000] rounded-xl text-white font-bold md:text-[32px] text-[16px] transform rotate-180 z-20 hover:bg-red-700 transition-colors"
       style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
       onClick={handleOfferClick}
     >
-      <span className="text-white transform rotate-180">GET OFFER 20%</span>
+      <span className="text-white transform text rotate-180">GET OFFER 20%</span>
 
       {/* السهم */}
       <span
-        className={`text-white transform rotate-180 text-[32px] inline-block transition-transform duration-300 ${
+        className={`text-white transform rotate-180 md:text-[32px] text-[18px] inline-block transition-transform duration-300 ${
           isOpen ? "rotate-90" : "rotate-0"
         }`}
       >
@@ -88,23 +88,23 @@ export default function Section4() {
       {/* الكارد الذي سيظهر عند الضغط */}
     {isCardOpen && (
         <div 
-          className="absolute top-0 right-12 w-86  bg-white text-black shadow-2xl z-30 p-6  animate-fade-in"
+          className="absolute top-0 right-12 md:w-86  bg-white text-black shadow-2xl z-30 md:p-6  p-2 animate-fade-in"
           // يمكنك إضافة بعض التعديلات ليتناسب مع ارتفاع البانر
           style={{ height: '100%' }} 
         >
           <form onSubmit={handleRegister}>
-            <div className="mb-4 text-center">
-              <p className="text-[20px] font-medium mb-2">
+            <div className="mb-6 text-center">
+              <p className="md:text-[20px] text-[16px] font-medium mb-2">
                 REGISTERD AND GET
               </p>
               <div className="flex justify-center items-center mb-2 gap-6">
            <div>
-                 <span className="text-[52px] font-bold text-black mr-2">
+                 <span className="md:text-[52px] text-[24px] font-bold text-black mr-2">
                   20%
                 </span>
                 <h1 className='text-[20px]'>off</h1>
            </div>
-                <div className="flex flex-col text-left text-[20px] font-medium">
+                <div className="flex flex-col text-left md:text-[20px] text-[16px] font-medium">
                   <span>OFF</span>
                   <span className="text-black">Free Shipping</span>
                   <span className="text-black">Free Shipping</span>
@@ -118,13 +118,13 @@ export default function Section4() {
               type="email"
               placeholder="ENTER YOUR EMAIL ADDRES"
               required
-              className="w-full p-2 border border-black rounded-2xl text-sm focus:outline-none focus:border-red-600"
+              className="w-full md:p-2 px-2 border border-black rounded-2xl text-sm focus:outline-none focus:border-red-600"
             />
 
             {/* زر التسجيل الأحمر */}
             <button 
               type="submit"
-              className="w-full mt-4 p-2 bg-[#FF0000] rounded-2xl text-white font-bold text-base uppercase hover:bg-red-700 transition-colors"
+              className="w-full md:mt-4 mt-1 md:p-2 p-1 bg-[#FF0000] rounded-2xl text-white font-bold text-base uppercase hover:bg-red-700 transition-colors"
             >
               REGISTER
             </button>

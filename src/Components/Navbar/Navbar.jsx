@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../public/logo.png";
-import { ShoppingCart, Heart, User, Languages } from "lucide-react";
+import { ShoppingCart, Heart, User } from "lucide-react";
 import { useCart } from "../../Context/CartContext1";
 import { useLanguage } from "../../Context/LanguageContext";
 
@@ -33,36 +33,27 @@ export default function Navbar() {
 
   const navLinkClass = ({ isActive }) =>
     isActive
-      ? "hover:text-red-500 text-red-500 font-semibold"
-      : "hover:text-red-500 text-white font-semibold";
+      ? "text-red-500 font-semibold"
+      : "text-white hover:text-red-500 font-semibold";
 
   return (
     <>
       <nav
         className={
           pathname === "/about"
-            ? "text-white top-0 right-0 left-0 md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-10 rounded-full"
-            : "text-white top-0 right-0 left-0 md:bg-[#1d0606] max-w-[1600px] mx-auto my-10 rounded-full"
+            ? "text-white md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-5 md:my-10 rounded-full"
+            : "text-white md:bg-[#1d0606] max-w-[1600px] mx-auto my-5 md:my-10 rounded-full"
         }
       >
-        <div className="flex flex-wrap items-center justify-between mx-auto max-w-screen-2xl p-4 gap-y-4">
+        <div className="flex items-center justify-between mx-auto max-w-screen-2xl p-4">
+
           {/* Logo */}
-          <NavLink to="/">
-            <div className="w-full md:w-auto flex justify-center md:justify-start">
-              <img src={logo} className="h-12 w-auto" alt="Logo" />
-            </div>
+          <NavLink to="/" className="flex items-center">
+            <img src={logo} className="h-12 w-auto" alt="Logo" />
           </NavLink>
 
-          {/* Hamburger */}
-          <button
-            className="md:hidden text-white text-2xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <i className="fas fa-bars"></i>
-          </button>
-
           {/* Desktop Links */}
-          <div className="hidden w-full md:flex-1 md:flex justify-center">
+          <div className="hidden md:flex flex-1 justify-center">
             <ul className="flex gap-10 text-md font-medium">
               <li><NavLink to="/" className={navLinkClass}>{t.home}</NavLink></li>
               <li><NavLink to="/products" className={navLinkClass}>{t.products}</NavLink></li>
@@ -80,9 +71,12 @@ export default function Navbar() {
             </ul>
           </div>
 
-          {/* Desktop Icons */}
-          <div className="hidden md:flex w-full md:w-auto justify-end">
-            <ul className="flex gap-4 items-center">
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+
+            {/* Desktop Icons */}
+            <div className="hidden md:flex gap-4 items-center">
+
               {/* Cart */}
               <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/cart">
                 <ShoppingCart size={24} color="#000" />
@@ -92,29 +86,17 @@ export default function Navbar() {
               </NavLink>
 
               {/* Wishlist */}
-              <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/wishlist">
+              <NavLink className="py-2 px-2 bg-white rounded-full" to="/wishlist">
                 <Heart size={24} color="#000" />
-                {/* <div className="absolute -top-3 -right-3 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
-                  {totalItems}
-                </div> */}
               </NavLink>
-      {/* Language */}
-              {/* <button
-                onClick={toggleLanguage}
-                className="py-2 px-2 bg-white rounded-full"
-                title={t.language}
-              >
-                <Languages size={22} color="#000" />
-              </button> */}
 
               {/* Language */}
-<button
-  onClick={toggleLanguage}
-  className="py-2 px-2 bg-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm text-black"
-  title={t.language}
->
-  {lang === "ar" ? "EN" : "AR"}
-</button>
+              <button
+                onClick={toggleLanguage}
+                className="py-2 px-2 bg-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm text-black"
+              >
+                {lang === "ar" ? "EN" : "AR"}
+              </button>
 
               {/* User */}
               <div className="relative text-black">
@@ -126,7 +108,7 @@ export default function Navbar() {
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 text-black bg-white rounded-xl shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg z-50">
                     {!token ? (
                       <>
                         <NavLink to="/login" className="block px-4 py-2 hover:bg-[#4E0000] hover:text-white">
@@ -138,11 +120,11 @@ export default function Navbar() {
                       </>
                     ) : (
                       <>
-                        <div className="px-4 py-2 text-black font-semibold">
+                        <div className="px-4 py-2 font-semibold">
                           {t.hello} {userName ?? "User"}
                         </div>
                         <button
-                          className="w-full text-left text-black px-4 py-2 hover:bg-[#4E0000] hover:text-white"
+                          className="w-full text-left px-4 py-2 hover:bg-[#4E0000] hover:text-white"
                           onClick={() => {
                             localStorage.clear();
                             navigate("/login");
@@ -156,26 +138,93 @@ export default function Navbar() {
                 )}
               </div>
 
-        
-            </ul>
+            </div>
+
+            {/* Hamburger */}
+            <button
+              className="md:hidden text-white text-2xl"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              ☰
+            </button>
+
           </div>
         </div>
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden bg-[#1d0606] text-white px-4 py-4 space-y-4">
-            <NavLink to="/" className={navLinkClass}>{t.home}</NavLink>
-            <NavLink to="/products" className={navLinkClass}>{t.products}</NavLink>
-            <NavLink to="/about" className={navLinkClass}>{t.about}</NavLink>
-            <NavLink to="/brand" className={navLinkClass}>{t.brands}</NavLink>
+          <div className="md:hidden w-full bg-[#1d0606] text-white px-4 py-4 space-y-4 rounded-b-2xl">
+            
+            <NavLink to="/" className="block hover:text-[#b61818] text-white">{t.home}</NavLink>
+            <NavLink to="/products" className="block hover:text-[#b61818] text-white">{t.products}</NavLink>
+            <NavLink to="/about" className="block hover:text-[#b61818] text-white">{t.about}</NavLink>
+            <NavLink to="/brand" className="block hover:text-[#b61818] text-white">{t.brands}</NavLink>
 
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 font-semibold"
-            >
-              <Languages size={18} />
-              {t.language}
-            </button>
+            {/* Mobile Icons (نفس الديسكتوب) */}
+            <div className="flex justify-center items-center gap-4 pt-4 border-t border-gray-600">
+
+              {/* Cart */}
+              <NavLink className="relative py-2 px-2 bg-white rounded-full" to="/cart">
+                <ShoppingCart size={22} color="#000" />
+                <div className="absolute -top-2 -right-2 size-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center">
+                  {totalItems}
+                </div>
+              </NavLink>
+
+              {/* Wishlist */}
+              <NavLink className="py-2 px-2 bg-white rounded-full" to="/wishlist">
+                <Heart size={22} color="#000" />
+              </NavLink>
+
+              {/* Language */}
+              <button
+                onClick={toggleLanguage}
+                className="py-2 px-2 bg-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm text-black"
+              >
+                {lang === "ar" ? "EN" : "AR"}
+              </button>
+
+              {/* User */}
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="py-2 px-2 bg-white rounded-full"
+                >
+                  <User size={22} color="#000" />
+                </button>
+
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg z-50 text-black">
+                    {!token ? (
+                      <>
+                        <NavLink to="/login" className="block px-4 py-2 hover:bg-[#4E0000] hover:text-white">
+                          {t.login}
+                        </NavLink>
+                        <NavLink to="/register" className="block px-4 py-2 hover:bg-[#4E0000] hover:text-white">
+                          {t.register}
+                        </NavLink>
+                      </>
+                    ) : (
+                      <>
+                        <div className="px-4 py-2 font-semibold">
+                          {t.hello} {userName ?? "User"}
+                        </div>
+                        <button
+                          className="w-full text-left px-4 py-2 hover:bg-[#4E0000] hover:text-white"
+                          onClick={() => {
+                            localStorage.clear();
+                            navigate("/login");
+                          }}
+                        >
+                          {t.logout}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+            </div>
           </div>
         )}
       </nav>

@@ -14,7 +14,7 @@ export default function Home() {
     <AgeVerification/>
       {/* <Spinner /> */}
 
-      <div className=" hidden md:block">
+      <div className="  md:block">
       <Section1 />
       </div>
      <div className="my-12">

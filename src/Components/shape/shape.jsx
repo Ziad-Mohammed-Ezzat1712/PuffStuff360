@@ -8,9 +8,8 @@ export default function Shape() {
   // الخطوات بالترتيب
   const steps = [
     { id: 1, name: "Your Cart", path: "/cart" },
-    { id: 2, name: "Shipping data", path: "/shippingpage" },
-    { id: 3, name: "Payment method", path: "/paymentpage" },
-    { id: 4, name: "Details", path: "/details" },
+    { id: 2, name: " Payment method ", path: "/paymentpage" },
+    { id: 3, name: "Shipping data", path: "/shippingpage" },
     { id: 5, name: "Confirmation", path: "/confirmation" },
   ];
 
@@ -18,7 +17,7 @@ export default function Shape() {
   const currentStepIndex = steps.findIndex((step) => step.path === pathname);
 
   return (
-    <div className="flex justify-center items-center gap-10 px-10 py-10">
+    <div className="md:flex hidden justify-center items-center gap-10 px-10 py-10">
       {steps.map((step, index) => {
         // الشرط: لو الخطوة الحالية أو أي خطوة قبلها → فعالة
         const isActive = index <= currentStepIndex;

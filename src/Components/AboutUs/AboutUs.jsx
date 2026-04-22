@@ -250,8 +250,8 @@ const opacity = useTransform(scrollY, [start, end], [0, 1]);
   className="flex justify-between items-center text-white min-h-dvh max-w-[1550px] mx-auto z-50"
 >
   <div className='z-50'>
-    <h1 className="text-[45px] text-left font-bold mb-4 text-white">A Simple, Modern Store Designed for Every Vaper</h1>
-    <p className="text-[20px] mb-6 text-left">
+    <h1 className="md:text-[45px] text-[24px] text-left font-bold mb-4 text-white">A Simple, Modern Store Designed for Every Vaper</h1>
+    <p className="md:text-[20px] text-[16px] mb-6 text-left">
       Our store is built to give every vaper in Egypt a smooth, easy, and hassle-free experience. Whether you're new to vaping or a long-time user, you'll find everything you need in one place. We offer the latest devices, the newest e-liquid flavors, and a wide range of accessories — all carefully selected to match every style and preference. Fast, simple, and always updated with the newest releases.
     </p>
     <Link to="/products" className='z-50'>
