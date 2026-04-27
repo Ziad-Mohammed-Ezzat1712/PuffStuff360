@@ -18,7 +18,9 @@ export default function Cart() {
   } = useCart();
 
   const subtotal = cartSummary?.subtotal || 0;
+
   const total = subtotal - discount;
+  const Delivery = 60 ;
 
   useEffect(() => {
     console.log("🛒 cartItems updated:", cartItems);
@@ -195,15 +197,17 @@ export default function Cart() {
             {/* Delivery */}
             <div className="flex justify-between text-gray-600 text-lg mb-2 border-b-2 pb-2">
               <span>Delivery</span>
-              <span className="text-black font-semibold">0 EG</span>
+              <span className="text-black font-semibold">{Delivery} EG</span>
             </div>
 
             {/* Total */}
             <div className="flex justify-between text-black text-xl font-medium mt-3">
               <span>Total</span>
-              <span>{total} EG</span>
+              <span>{total + Delivery} EG</span>
             </div>
+             <h1 className="text-black mt-6">Note: Delivery is currently available in Cairo only.</h1>
           </div>
+         
         </div>
       )}
     </div>

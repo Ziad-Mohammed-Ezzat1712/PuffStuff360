@@ -50,8 +50,8 @@ export default function AgeVerification() {
         {/* Description */}
         <p className="text-gray-300 text-sm mb-6 leading-relaxed">
           {isArabic
-            ? "هذا الموقع يحتوي على منتجات مخصصة للبالغين فقط. يجب أن يكون عمرك 21 عامًا أو أكثر للدخول."
-            : "This website contains products intended for adults only. You must be at least 21 years old to enter."}
+            ? "هذا الموقع يحتوي على منتجات مخصصة للبالغين فقط. يجب أن يكون عمرك 18 عامًا أو أكثر للدخول."
+            : "This website contains products intended for adults only. You must be at least 18 years old to enter."}
         </p>
 
         {/* Buttons */}
@@ -60,14 +60,14 @@ export default function AgeVerification() {
             onClick={handleYes}
             className="bg-[#4E0000] text-white px-6 py-2 rounded-xl font-semibold hover:scale-105 transition duration-300 shadow-lg"
           >
-            {isArabic ? "نعم، 21+" : "I'm 21+"}
+            {isArabic ? "نعم، 18+" : "I'm 18+"}
           </button>
 
           <button
             onClick={handleNo}
             className="bg-white/20 text-white px-6 py-2 rounded-xl hover:bg-white/30 transition duration-300"
           >
-            {isArabic ? "أقل من 21" : "Under 21"}
+            {isArabic ? "أقل من 18" : "Under 18"}
           </button>
         </div>
       </div>

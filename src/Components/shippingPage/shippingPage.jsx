@@ -9,11 +9,29 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ShippingPage() {
-  const { cartSummary, discount, cartItems } = useCart();
-
-  const subtotal = cartSummary?.subtotal || 0;
-  const total = subtotal - discount;
-
+    const {
+      cartItems,
+      removeFromCart,
+      increaseQuantity,
+      decreaseQuantity,
+      couponCode,
+      setCouponCode,
+      discount,
+      applyCoupon,
+      cartSummary,
+    } = useCart();
+  
+    const subtotal = cartSummary?.subtotal || 0;
+    const total = subtotal - discount;
+    const Delivery = 60;
+  
+    useEffect(() => {
+      console.log("🛒 cartItems updated:", cartItems);
+    }, [cartItems]);
+  
+    useEffect(() => {
+      console.log("📊 cartSummary:", cartSummary);
+    }, [cartSummary]);
   // ✅ states
   const [regions, setRegions] = useState([]);
   const [receiptImage, setReceiptImage] = useState(null);
@@ -36,7 +54,7 @@ export default function ShippingPage() {
     const fetchRegions = async () => {
       try {
         const res = await axios.get(
-          "https://dashboard.splash-e-liquid.com/shipping/getAllShapping.php"
+          `https://dashboard.splash-e-liquid.com/shipping/getAllShapping.php?nocache=${Date.now()}`
         );
 
         if (res.data.status) {
@@ -211,27 +229,53 @@ export default function ShippingPage() {
 
         {/* Summary */}
         <div className="bg-white p-6 rounded-2xl shadow-lg h-fit sticky top-20">
-          <h3 className="text-2xl text-black mb-4">Order Summary</h3>
+           <h3 className="text-2xl font-medium text-black mb-4">
+            Order Summary
+          </h3>
 
-          <div className="flex justify-between mb-3">
+          <div className="flex flex-col md:flex-row gap-3 mb-4">
+            <input
+              type="text"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              placeholder="Coupon code"
+              className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-800 text-black"
+            />
+            <button
+              onClick={applyCoupon}
+              className="bg-red-800 hover:bg-red-900 text-white px-6 py-2 rounded-lg transition"
+            >
+              Apply
+            </button>
+          </div>
+
+          <div className="flex justify-between text-gray-600 text-lg mb-2">
             <span>Subtotal</span>
-            <span>{subtotal} EG</span>
+            <span className="text-black font-semibold">{subtotal} EG</span>
           </div>
 
-          <div className="flex justify-between mb-3">
-            <span>Discount</span>
-            <span className="text-[#790000]">{discount} EG</span>
-          </div>
+          {discount > 0 && (
+            <div className="flex justify-between text-gray-600 text-lg mb-2">
+              <span>Discount</span>
+              <span className="text-red-700 font-semibold">
+                {discount} EG
+              </span>
+            </div>
+          )}
 
-          <div className="flex justify-between border-b pb-3 mb-3">
+          <div className="flex justify-between text-gray-600 text-lg mb-2 border-b-2 pb-2">
             <span>Delivery</span>
-            <span>0 EG</span>
+            <span className="text-black font-semibold">{Delivery} EG</span>
           </div>
 
-          <div className="flex justify-between font-bold text-xl">
+          <div className="flex justify-between text-black text-xl font-medium mt-3">
             <span>Total</span>
-            <span>{total} EG</span>
+            <span>{total + Delivery} EG</span>
           </div>
+
+          <h1 className="text-black mt-6">
+            Note: Delivery is currently available in Cairo only.
+          </h1>
         </div>
       </div>
     </div>

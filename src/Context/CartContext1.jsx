@@ -168,7 +168,7 @@ const addToCart = async (cartProduct) => {
     if (!couponCode) return toast.error("Enter coupon code");
 
     try {
-      const res = await axios.get(DISCOUNT_API);
+      const res = await axios.get(DISCOUNT_API,authHeader);
       const products = res.data.data || [];
 
       let matchedCoupon = null;

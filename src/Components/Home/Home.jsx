@@ -7,6 +7,7 @@ import Section6 from "../Section6/Section6";
 import Section7 from "../Section7/Section7";
 import Spinner from "../Spinner/Spinner";
 import AgeVerification from "../AgeVerification/AgeVerification";
+import VapeWarningBar from "../VapeWarningBar/VapeWarningBar";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       {/* <Spinner /> */}
 
       <div className="  md:block">
+        {/* <VapeWarningBar/> */}
       <Section1 />
       </div>
      <div className="my-12">

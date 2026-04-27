@@ -41,7 +41,7 @@ export default function Navbar() {
       <nav
         className={
           pathname === "/about"
-            ? "text-white md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-5 md:my-10 rounded-full"
+            ? "text-white md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-5 md:my-14 rounded-full"
             : "text-white md:bg-[#1d0606] max-w-[1600px] mx-auto my-5 md:my-10 rounded-full"
         }
       >
