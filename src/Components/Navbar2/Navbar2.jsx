@@ -37,7 +37,7 @@ export default function Navbar2() {
 
   return (
     <>
-      <VapeWarningBar />
+      {/* <VapeWarningBar /> */}
 
       <nav className="absolute top-0 w-full z-50 px-6 md:px-10 py-6">
         <div className="flex items-center justify-between max-w-screen-2xl mx-auto w-full">
