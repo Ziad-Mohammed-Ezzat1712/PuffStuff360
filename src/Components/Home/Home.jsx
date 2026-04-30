@@ -8,6 +8,7 @@ import Section7 from "../Section7/Section7";
 import Spinner from "../Spinner/Spinner";
 import AgeVerification from "../AgeVerification/AgeVerification";
 import VapeWarningBar from "../VapeWarningBar/VapeWarningBar";
+import Hero2 from "../hero/hero";
 
 export default function Home() {
   return (
@@ -16,21 +17,22 @@ export default function Home() {
       {/* <Spinner /> */}
 
       <div className="  md:block">
-        {/* <VapeWarningBar/> */}
-      <Section1 />
+       
+      {/* <Section1 /> */}
+      <Hero2/>
       </div>
-     <div className="my-12">
+     <div className="my-12 max-w-[1800px] mx-auto">
        <Section2 />
      </div>
 
       <Section4 />
-      <div className="my-12">
+      <div className="my-12 max-w-[1800px] mx-auto">
       <Section5 />
       </div>
-      <div className="my-12">
+      <div className="my-12 max-w-[1800px] mx-auto">
       <Section6 />
       </div>
-<div className="my-12">
+<div className="my-12 max-w-[1800px] mx-auto">
       <Section7 />
       </div>
     </>

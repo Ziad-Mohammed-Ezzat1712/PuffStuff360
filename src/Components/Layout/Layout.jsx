@@ -13,7 +13,7 @@ console.log(pathname);
     
       <Navbar className={pathname === "/about" ? "hidden" : ""}/>
 
-      <div className=" w-full max-w-[1800px] mx-auto my-5 py-20 lg:py-12">
+      <div className=" w-full max-w-[1800px] mx-auto my-5">
       <Outlet/>
       </div>
       <Footer/>

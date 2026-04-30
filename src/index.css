@@ -136,3 +136,155 @@ a, a:hover {
     transform: scale(1);
   }
 }
+@import "tailwindcss";
+body{
+    background-color:black;
+        overflow-x: hidden;
+}
+
+@keyframes loopWords {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-loop-words {
+  animation: loopWords 12000ms  linear infinite;
+}
+/* index.css أو أي ملف CSS عام */
+@keyframes marquee-right {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-right {
+  animation: marquee-right 20s linear infinite;
+}
+
+.animate-marquee-left {
+  animation: marquee-left 20s linear infinite;
+}
+@layer utilities {
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+.stroke-text {
+  -webkit-text-stroke: 2px white;
+}
+
+.hero-text {
+  position: relative;
+  font-size: 64px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* الطبقة اللي ورا (Outline) */
+.text-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #ffffff;
+  opacity: 0.4;
+  z-index: 1;
+
+  animation: moveOutline 3s ease-in-out infinite alternate;
+}
+
+/* النص الأساسي */
+.text-fill {
+  color: #ffffff;
+  -webkit-text-stroke: 3px #008c96;
+  /* text-shadow: #ffffff 4px 5px;  */
+}
+
+/* الحركة الناعمة زي BE */
+@keyframes moveOutline {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(6px, 6px);
+  }
+}
+.hero-text {
+  position: relative;
+}
+.perspective {
+  perspective: 1200px;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+.perspective {
+  perspective: 1200px;
+}
+
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+}
+.permanent-marker-regular {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 1000;
+  font-style: normal;
+}
+
+.bungee-regular {
+  font-family: "Bungee", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+}
+.dm-serif-display-regular {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-style:normal;
+}
+
+.dm-serif-display-regular-italic {
+  font-family: "DM Serif Display", serif;
+  font-weight: 600;
+  font-style: italic;
+}

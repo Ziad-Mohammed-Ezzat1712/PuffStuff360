@@ -49,7 +49,7 @@ let x = createBrowserRouter([
     path: "",
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
+      // { index: true, element: <Home /> },
       { path: "cart", element: <Cart /> },
       {path:"wishlist",element:<WishList/>},
       { path: "login", element: <Login /> },
@@ -89,6 +89,7 @@ let x = createBrowserRouter([
     path: "/about",
     element: <AboutUs />,
   },
+   { index: true, element: <Home /> }
 ]);
 
 function App() {

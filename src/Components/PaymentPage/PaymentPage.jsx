@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import Shape from "../shape/shape";
 import vo from "../../assets/Images/vo.png";
@@ -7,13 +6,12 @@ import { LockKeyhole } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Context/CartContext1.jsx";
 import { LuWallet } from "react-icons/lu";
+import { MdOutlinePayments } from "react-icons/md";
+import { useLanguage } from "../../Context/LanguageContext";
 
 export default function PaymentPage() {
   const {
     cartItems,
-    removeFromCart,
-    increaseQuantity,
-    decreaseQuantity,
     couponCode,
     setCouponCode,
     discount,
@@ -21,17 +19,11 @@ export default function PaymentPage() {
     cartSummary,
   } = useCart();
 
+  const { isArabic } = useLanguage();
+
   const subtotal = cartSummary?.subtotal || 0;
   const total = subtotal - discount;
   const Delivery = 60;
-
-  useEffect(() => {
-    console.log("🛒 cartItems updated:", cartItems);
-  }, [cartItems]);
-
-  useEffect(() => {
-    console.log("📊 cartSummary:", cartSummary);
-  }, [cartSummary]);
 
   const [selected, setSelected] = useState(null);
 
@@ -48,35 +40,33 @@ export default function PaymentPage() {
   return (
     <>
       <h2 className="text-3xl font-bold mb-10 text-[#ffffff] text-center">
-        Your Shopping Cart
+        {isArabic ? "سلة التسوق" : "Your Shopping Cart"}
       </h2>
 
       <Shape />
 
       <div className="grid grid-cols-2 container mx-auto">
-        {/* Payment Section */}
+        {/* Payment */}
         <div className="bg-white container mx-auto max-w-4xl rounded-xl mt-20">
-          <h1 className="py-10 text-[25px] font-semibold">
-            Select Payment method
+          <h1 className="py-10 text-[25px] text-center font-semibold">
+            {isArabic ? "اختر طريقة الدفع" : "Select Payment Method"}
           </h1>
 
           <div className="flex justify-center gap-4 pb-6">
+            {/* Wallet */}
             <button
-              type="button"
               onClick={() => handleClick("wallet")}
-              aria-pressed={selected === "wallet"}
-              className={` px-14 ${base} ${
+              className={`${base} ${
                 selected === "wallet" ? selectedClass : unselected
-              }`}
+              } px-14`}
             >
               <LuWallet size={36} />
-              Wallet
+              {isArabic ? "محفظة" : "Wallet"}
             </button>
 
+            {/* Instapay */}
             <button
-              type="button"
               onClick={() => handleClick("instapay")}
-              aria-pressed={selected === "instapay"}
               className={`${base} ${
                 selected === "instapay" ? selectedClass : unselected
               } px-8`}
@@ -84,61 +74,85 @@ export default function PaymentPage() {
               <img src={i} alt="instapay" className="h-12" />
               Instapay
             </button>
+
+            {/* COD */}
+            <button
+              onClick={() => handleClick("cod")}
+              className={`${base} ${
+                selected === "cod" ? selectedClass : unselected
+              } px-10`}
+            >
+              <MdOutlinePayments size={36} />
+              {isArabic ? "الدفع عند الاستلام" : "Cash on Delivery"}
+            </button>
           </div>
 
-          {/* 👇 Transfer Details */}
+          {/* Details */}
           {selected && (
             <div className="px-10 pb-6 text-center">
               <h2 className="text-lg font-semibold text-[#790000] mb-2">
-                Transfer Details
+                {selected === "cod"
+                  ? ""
+                  : isArabic
+                  ? "تفاصيل التحويل"
+                  : "Transfer Details"}
               </h2>
 
-              <p className="text-black text-[16px] mb-2">
-                Please transfer the total amount to the following number:
-              </p>
+              {selected !== "cod" ? (
+                <>
+                  <p className="text-black text-[16px] mb-2">
+                    {isArabic
+                      ? "قم بتحويل المبلغ إلى الرقم التالي:"
+                      : "Please transfer the total amount to:"}
+                  </p>
 
-              <h1 className="text-xl font-bold text-black mb-3">
-                {selected === "instapay"
-                  ? "01123640548"
-                  : "01228837155"}
-              </h1>
+                  <h1 className="text-xl font-bold text-black mb-3">
+                    {selected === "instapay"
+                      ? "01123640548"
+                      : "01228837155"}
+                  </h1>
 
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Kindly transfer the full amount (
-                <span className="font-semibold">
-                  {total + Delivery} EG
-                </span>
-                ) via{" "}
-                {selected === "instapay" ? "Instapay" : "Wallet"} and keep a
-                screenshot of the transaction for confirmation.
-              </p>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {isArabic ? (
+                      <>
+                        قم بتحويل مبلغ{" "}
+                        <span className="font-semibold">
+                          {total + Delivery} EG
+                        </span>{" "}
+                        واحتفظ بصورة التحويل
+                      </>
+                    ) : (
+                      <>
+                        Transfer{" "}
+                        <span className="font-semibold">
+                          {total + Delivery} EG
+                        </span>{" "}
+                        and keep screenshot
+                      </>
+                    )}
+                  </p>
+                </>
+              ) : (
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {isArabic
+                    ? `هتدفع ${total + Delivery} EG عند الاستلام`
+                    : `You will pay ${total + Delivery} EG upon delivery`}
+                </p>
+              )}
             </div>
           )}
-
-         
-          {/* <div className="mb-4 px-10 font-medium">
-            <h1>Please enter the mobile number</h1>
-            <h1 className="mb-2">
-              from which the transfer will be made.
-            </h1>
-            <input
-              type="text"
-              className="bg-[#E6E6E6] w-full rounded-2xl h-14 px-4 mt-2"
-              placeholder="EX:01023456789"
-            />
-          </div> */}
 
           {/* Buttons */}
           <div className="flex justify-center gap-4 pb-10 pt-4">
             <Link to="/cart">
               <button className="flex items-center gap-3 bg-transparent border border-black px-20 font-medium text-black py-2 rounded-xl hover:bg-[#790000] hover:text-white hover:border-transparent">
-                Back
+                {isArabic ? "رجوع" : "Back"}
               </button>
             </Link>
 
             <Link to="/shippingpage">
               <button className="flex items-center gap-3 bg-[#790000] hover:bg-transparent hover:border hover:border-black px-12 font-medium text-white hover:text-black py-2 rounded-xl">
-                continuation
+                {isArabic ? "استمرار" : "Continue"}
               </button>
             </Link>
           </div>
@@ -146,8 +160,8 @@ export default function PaymentPage() {
 
         {/* Order Summary */}
         <div className="bg-white p-6 container mx-auto max-w-xl rounded-2xl shadow-lg h-fit sticky mt-20">
-          <h3 className="text-2xl font-medium text-black mb-4">
-            Order Summary
+          <h3 className="text-2xl font-medium text-center text-black mb-4">
+            {isArabic ? "ملخص الطلب" : "Order Summary"}
           </h3>
 
           <div className="flex flex-col md:flex-row gap-3 mb-4">
@@ -155,43 +169,43 @@ export default function PaymentPage() {
               type="text"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
-              placeholder="Coupon code"
-              className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-800 text-black"
+              placeholder={isArabic ? "كود الخصم" : "Coupon code"}
+              className="flex-1 border rounded-lg px-4 py-2 text-black"
             />
             <button
               onClick={applyCoupon}
-              className="bg-red-800 hover:bg-red-900 text-white px-6 py-2 rounded-lg transition"
+              className="bg-red-800 text-white px-6 py-2 rounded-lg"
             >
-              Apply
+              {isArabic ? "تطبيق" : "Apply"}
             </button>
           </div>
 
-          <div className="flex justify-between text-gray-600 text-lg mb-2">
-            <span>Subtotal</span>
-            <span className="text-black font-semibold">{subtotal} EG</span>
+          <div className="flex justify-between text-lg mb-2">
+            <span>{isArabic ? "المجموع" : "Subtotal"}</span>
+            <span>{subtotal} EG</span>
           </div>
 
           {discount > 0 && (
-            <div className="flex justify-between text-gray-600 text-lg mb-2">
-              <span>Discount</span>
-              <span className="text-red-700 font-semibold">
-                {discount} EG
-              </span>
+            <div className="flex justify-between text-lg mb-2">
+              <span>{isArabic ? "الخصم" : "Discount"}</span>
+              <span className="text-red-700">{discount} EG</span>
             </div>
           )}
 
-          <div className="flex justify-between text-gray-600 text-lg mb-2 border-b-2 pb-2">
-            <span>Delivery</span>
-            <span className="text-black font-semibold">{Delivery} EG</span>
+          <div className="flex justify-between text-lg mb-2 border-b-2 pb-2">
+            <span>{isArabic ? "التوصيل" : "Delivery"}</span>
+            <span>{Delivery} EG</span>
           </div>
 
-          <div className="flex justify-between text-black text-xl font-medium mt-3">
-            <span>Total</span>
+          <div className="flex justify-between text-xl font-medium mt-3">
+            <span>{isArabic ? "الإجمالي" : "Total"}</span>
             <span>{total + Delivery} EG</span>
           </div>
 
-          <h1 className="text-black mt-6">
-            Note: Delivery is currently available in Cairo only.
+          <h1 className="mt-6 text-black">
+            {isArabic
+              ? "ملحوظة: التوصيل متاح داخل القاهرة فقط"
+              : "Note: Delivery available in Cairo only"}
           </h1>
         </div>
 
@@ -199,7 +213,9 @@ export default function PaymentPage() {
         <div className="mt-[20px] flex justify-center items-center gap-5">
           <LockKeyhole size={32} className="text-[#A59F9F]" />
           <h1 className="text-[#C4C4C4] text-[18px] mt-2">
-            All transactions are secure and encrypted.
+            {isArabic
+              ? "جميع المعاملات آمنة ومشفرة"
+              : "All transactions are secure and encrypted"}
           </h1>
         </div>
       </div>

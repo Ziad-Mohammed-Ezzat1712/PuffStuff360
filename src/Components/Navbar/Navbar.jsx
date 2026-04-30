@@ -4,6 +4,7 @@ import logo from "../../../public/logo.png";
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { useCart } from "../../Context/CartContext1";
 import { useLanguage } from "../../Context/LanguageContext";
+import VapeWarningBar from "../VapeWarningBar/VapeWarningBar";
 
 export default function Navbar() {
   const { totalItems } = useCart();
@@ -38,11 +39,14 @@ export default function Navbar() {
 
   return (
     <>
+     <div className="">
+      <VapeWarningBar/>
+     </div>
       <nav
         className={
           pathname === "/about"
-            ? "text-white md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-5 md:my-14 rounded-full"
-            : "text-white md:bg-[#1d0606] max-w-[1600px] mx-auto my-5 md:my-10 rounded-full"
+            ? "text-white md:bg-[rgba(0,0,0,0.23)] max-w-[1600px] mx-auto my-5 md:my- rounded-full"
+            : "text-white md:bg-[#1d0606] max-w-[1600px] mx-auto my-5 md:my-16 rounded-full"
         }
       >
         <div className="flex items-center justify-between mx-auto max-w-screen-2xl p-4">
