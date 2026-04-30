@@ -334,14 +334,14 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useCart } from "../../Context/CartContext1.jsx";
+// import { useCart } from "../../Context/CartContext1.jsx";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Heart } from "lucide-react";
 import { useLanguage } from "../../Context/LanguageContext";
 
 export default function Section4() {
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const { isArabic } = useLanguage();
 
   const [products, setProducts] = useState([]);

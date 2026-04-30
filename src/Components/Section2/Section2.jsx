@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useCart } from "../../Context/CartContext1.jsx";
+// import { useCart } from "../../Context/CartContext1.jsx";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Heart } from "lucide-react";
 import { useLanguage } from "../../Context/LanguageContext";
 
 export default function Section2() {
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const { isArabic } = useLanguage();
 
   const [products, setProducts] = useState([]);
@@ -54,20 +54,20 @@ export default function Section2() {
   }, [isArabic]);
 
   // ================= ADD TO CART =================
-  const handleAddToCart = (product) => {
-    setLoadingId(product.id);
+  // const handleAddToCart = (product) => {
+  //   setLoadingId(product.id);
 
-    setTimeout(() => {
-      addToCart(product);
-      setLoadingId(null);
+  //   setTimeout(() => {
+  //     addToCart(product);
+  //     setLoadingId(null);
 
-      toast.success(
-        isArabic
-          ? `تمت إضافة ${product.name} إلى السلة 🛒`
-          : `${product.name} added to cart 🛒`,
-      );
-    }, 800);
-  };
+  //     toast.success(
+  //       isArabic
+  //         ? `تمت إضافة ${product.name} إلى السلة 🛒`
+  //         : `${product.name} added to cart 🛒`,
+  //     );
+  //   }, 800);
+  // };
 
   return (
     <>
