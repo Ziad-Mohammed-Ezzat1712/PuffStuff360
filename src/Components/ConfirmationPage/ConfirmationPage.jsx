@@ -17,7 +17,7 @@ export default function ConfirmationPage() {
           </h2>
     <Shape/>
     
-<div className='bg-white container mx-auto max-w-xl rounded-xl mt-20'>
+<div className='bg-white text-center container mx-auto max-w-xl rounded-xl mt-20'>
 <h1 className='py-10 text-[25px] font-semibold'>Payment method</h1>
 <div className="bg-[#DCFCE7] rounded-full w-[100px] h-[100px] mx-auto py-5">
   <img src={Done} alt="DoneIcon" className="w-[60px] h-[60px] mx-auto"/>
@@ -25,7 +25,7 @@ export default function ConfirmationPage() {
 <h1 className="text-xl my-6">Successful operation</h1>
 <h1 className="text-lg my-6 text-[#A0A0A0]"> The transfer will be reviewed shortly.</h1>
 <div className='mb-4 px-10 font-normal '> 
-  <h1 className="mb-3 text-lg">You’ll get a confirmation on WhatsApp or </h1>
+  <h1 className="mb-3 text-lg">You’ll get a confirmation on Call or WhatsApp or </h1>
   <h1 className='mb-3 text-lg'>email once reviewed.</h1>
  
 </div>

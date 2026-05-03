@@ -18,7 +18,6 @@ export function CartProvider({ children }) {
   const [loadingId, setLoadingId] = useState(null);
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
-
   const [token, setToken] = useState(localStorage.getItem("userToken"));
 
   useEffect(() => {

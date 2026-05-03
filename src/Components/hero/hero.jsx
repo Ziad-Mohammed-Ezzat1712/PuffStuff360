@@ -33,7 +33,7 @@ export default function Hero2() {
   }, [lang, text]);
 
   return (
-    <div className="relative h-screen w-full max-w-[1900px] overflow-hidden">
+    <div className="relative h-screen w-full  overflow-hidden">
       <Navbar2 />
 
       <video
